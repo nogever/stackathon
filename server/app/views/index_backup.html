@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="FullstackGeneratedApp">
+<html lang="en">
 <head>
     <base href="/" />
     <title>Fullstack Academy Generated Application</title>
@@ -14,10 +14,13 @@
     <script src="/main.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 </head>
-<body>
+<body ng-app="FullstackGeneratedApp">
 
     <navbar></navbar>
     <div ui-view></div>
 
+<script>
+  var socket = io();
+</script>
 </body>
 </html>
