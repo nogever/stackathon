@@ -1,0 +1,29 @@
+#home {
+  fullstack-logo {
+    padding-top: 30px;
+    width: 150px;
+    margin: 0 auto;
+  }
+  h1 {
+    margin-top: 40px;
+    text-align: center;
+  }
+}
+
+.sticky-note {
+	position: absolute;
+}
+
+.sticky-note .title {
+	background: transparent;
+	border: none;
+	display: block;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.sticky-note .body {
+	background: transparent;
+	border: none;
+	display: block;
+}
