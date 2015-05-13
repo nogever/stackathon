@@ -10,21 +10,21 @@ module.exports = function (server) {
 
     io.on('connection', function (socket) {
         // console.log('Now have access to socket, wowzers!');
-	  	socket.on('createNote', function(data) {
-	  		socket.broadcast.emit('onNoteCreated', data);
-	  	});
+        socket.on('createNote', function(data) {
+            socket.broadcast.emit('onNoteCreated', data);
+        });
 
-	  	socket.on('updateNote', function(data) {
-	  		socket.broadcast.emit('onNoteUpdated', data);
-	  	});
+        socket.on('updateNote', function(data) {
+            socket.broadcast.emit('onNoteUpdated', data);
+        });
 
-	  	socket.on('moveNote', function(data){
-	  		socket.broadcast.emit('onNoteMoved', data);
-	  	});
+        socket.on('moveNote', function(data){
+            socket.broadcast.emit('onNoteMoved', data);
+        });
 
-	  	socket.on('deleteNote', function(data){
-	  		socket.broadcast.emit('onNoteDeleted', data);
-	  	});
+        socket.on('deleteNote', function(data){
+            socket.broadcast.emit('onNoteDeleted', data);
+        });
     });
 
     return io;
