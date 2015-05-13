@@ -108,7 +108,7 @@ app.directive('stickyNote', function(Socket) {
 		Socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
 			console.log('onNoteUpdated', data);
-			if(data.id == $scope.note.id) {
+			if(data.id === $scope.note.id) {
 				$scope.note.title = data.title;
 				$scope.note.body = data.body;
 			}				
@@ -137,8 +137,6 @@ app.directive('stickyNote', function(Socket) {
 		}
 	};
 });
-
-
 
 
 
