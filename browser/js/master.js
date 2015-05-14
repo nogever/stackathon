@@ -18,6 +18,11 @@ app.factory('Board', function($http, $state) {
 			return $http.get('api/boards/b/' + id).then(function(response) {
 				return response.data;
 			});
+		},
+		getNotes: function(id) {
+			return $http.get('api/notes/b/' + id).then(function(response) {
+				return response.data;
+			})
 		}
 
 	};
@@ -34,13 +39,7 @@ app.factory('Note', function($http, $state) {
 			return $http.get('api/note/' + id).then(function(response) {
 				return response.data;
 			});
-		},
-		getAll: function() {
-			return $http.get('api/notes').then(function(response) {
-				return response.data;
-			});
 		}
-
 	};
 });
 
