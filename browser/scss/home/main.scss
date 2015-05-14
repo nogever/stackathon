@@ -12,14 +12,24 @@
 
 .sticky-note {
 	position: absolute;
+	color: #000;
+	padding: 15px;
+
+	&.yellow {
+		background-color: #ffffa5;
+	}
+
+	textarea {
+		min-height: 120px;
+	}
 }
 
 .sticky-note .title {
 	background: transparent;
 	border: none;
 	display: block;
-	font-size: 20px;
-	font-weight: bold;
+	width:160px;
+	font-size: 18px;
 }
 
 .sticky-note .body {
