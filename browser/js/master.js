@@ -15,7 +15,7 @@ app.factory('Board', function($http, $state) {
 			});
 		},
 		getOne: function(id) {
-			return $http.get('api/boards/' + id).then(function(response) {
+			return $http.get('api/boards/b/' + id).then(function(response) {
 				return response.data;
 			});
 		}
@@ -118,7 +118,9 @@ app.factory('socket', function($rootScope) {
 
 app.controller('BoardCtrl', function($scope, Board, $state, socket, $stateParams) {
 	$scope.board = {};
+	console.log('board id: ', $stateParams.id);
 	Board.getOne($stateParams.id).then(function(board) {
+		console.log('new board ', board);
 		$scope.board = board;
 	});
 	$scope.notes = [];
@@ -167,7 +169,7 @@ app.controller('BoardCtrl', function($scope, Board, $state, socket, $stateParams
 app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {	
 	$scope.createBoard = function() {
 		Board.create($scope.board.name).then(function(board) {
-			$state.go('board', {id: $scope.board._id})
+			$state.go('board', {id: board._id})
 		}).catch(function(err){
 			console.log(err);
 		});
