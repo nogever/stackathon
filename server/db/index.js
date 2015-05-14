@@ -15,6 +15,8 @@ require('./models/user');
 require('./models/board');
 require('./models/note');
 require('./models/comment');
+require('./models/todo');
+
 
 var startDbPromise = new Q(function (resolve, reject) {
     db.on('open', resolve);

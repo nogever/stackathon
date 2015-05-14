@@ -76,6 +76,7 @@ app.directive('stickyNote', function(socket) {
 		};
 
 	var controller = function($scope) {
+		$scope.test = [1, 2, 3];
 		// Incoming
 		socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
@@ -102,7 +103,8 @@ app.directive('stickyNote', function(socket) {
 	};
 
 	return {
-		restrict: 'A',
+		restrict: 'E',
+		templateUrl: 'js/stickyNote.html',
 		link: linker,
 		controller: controller,
 		scope: {
