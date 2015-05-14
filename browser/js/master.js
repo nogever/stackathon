@@ -166,54 +166,22 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, $state
 	});
 
 	// Outgoing
-	$scope.createNote = function(boardId) {
-		var note = {
-			board: boardId,
-			title: 'New Note',
-			body: 'Pending',
-			upvote: 0,
-			downvote: 0
-		};
-
-		Note.create(note)
-			.then(function(note) {
-				$scope.notes.push(note);
-				socket.emit('createNote', note);
-			}).catch(function(err) {
-				console.log('create note errrrr ', err);
-			});
-	};
-
-	$scope.deleteNote = function(id) {
-		$scope.handleDeletedNoted(id);
-
-		socket.emit('deleteNote', {id: id});
-		// console.log('deleteNote in coltroller', id);
-	};
-
-	$scope.handleDeletedNoted = function(id) {
-		var oldNotes = $scope.notes,
-		newNotes = [];
-
-		angular.forEach(oldNotes, function(note) {
-			if(note.id !== id) newNotes.push(note);
-		});
-
-		$scope.notes = newNotes;
-	}
-	// end test note persistence
-
-	// // Outgoing
-	// $scope.createNote = function() {
+	// $scope.createNote = function(boardId) {
 	// 	var note = {
-	// 		id: new Date().getTime(),
+	// 		board: boardId,
 	// 		title: 'New Note',
-	// 		body: 'Pending'
+	// 		body: 'Pending',
+	// 		upvote: 0,
+	// 		downvote: 0
 	// 	};
 
-	// 	$scope.notes.push(note);
-	// 	socket.emit('createNote', note);
-	// 	// console.log('createNote in controller', note);
+	// 	Note.create(note)
+	// 		.then(function(note) {
+	// 			$scope.notes.push(note);
+	// 			socket.emit('createNote', note);
+	// 		}).catch(function(err) {
+	// 			console.log('create note errrrr ', err);
+	// 		});
 	// };
 
 	// $scope.deleteNote = function(id) {
@@ -233,6 +201,38 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, $state
 
 	// 	$scope.notes = newNotes;
 	// }
+	// end test note persistence
+
+	// Outgoing
+	$scope.createNote = function() {
+		var note = {
+			id: new Date().getTime(),
+			title: 'New Note',
+			body: 'Pending'
+		};
+
+		$scope.notes.push(note);
+		socket.emit('createNote', note);
+		// console.log('createNote in controller', note);
+	};
+
+	$scope.deleteNote = function(id) {
+		$scope.handleDeletedNoted(id);
+
+		socket.emit('deleteNote', {id: id});
+		// console.log('deleteNote in coltroller', id);
+	};
+
+	$scope.handleDeletedNoted = function(id) {
+		var oldNotes = $scope.notes,
+		newNotes = [];
+
+		angular.forEach(oldNotes, function(note) {
+			if(note.id !== id) newNotes.push(note);
+		});
+
+		$scope.notes = newNotes;
+	}
 });
 
 app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {	
