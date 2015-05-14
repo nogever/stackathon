@@ -6,6 +6,8 @@ router.use('/tutorial', require('./tutorial'));
 router.use('/members', require('./members'));
 router.use('/boards', require('./boards'));
 router.use('/notes', require('./notes'));
+router.use('/comments', require('./comments'));
+router.use('/todos', require('./todos'));
 
 
 // Make sure this is after all of

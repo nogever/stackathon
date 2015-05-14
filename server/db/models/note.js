@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
     title: String,
     body: String,
     // todos: [{type: mongoose.Schema.Types.ObjectId, ref: 'Todo'}],
-    label: String,
+    label: [String],
     upvote: Number,
     downvote: Number,
     image: [String],
