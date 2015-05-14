@@ -23,6 +23,27 @@ app.factory('Board', function($http, $state) {
 	};
 });
 
+app.factory('Note', function($http, $state) {
+	return {
+		create: function() {
+			return $http.post('api/note').then(function(response) {
+				return response.data;
+			});
+		},
+		getOne: function(id) {
+			return $http.get('api/note/' + id).then(function(response) {
+				return response.data;
+			});
+		},
+		getAll: function() {
+			return $http.get('api/notes').then(function(response) {
+				return response.data;
+			});
+		}
+
+	};
+});
+
 app.directive('stickyNote', function(socket) {
 	var linker = function(scope, element, attrs) {
 			element.draggable({
@@ -122,6 +143,7 @@ app.controller('BoardCtrl', function($scope, Board, $state, socket, $stateParams
 	Board.getOne($stateParams.id).then(function(board) {
 		console.log('new board ', board);
 		$scope.board = board;
+
 	});
 	$scope.notes = [];
 
