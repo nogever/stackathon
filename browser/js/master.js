@@ -5,6 +5,11 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/master.html',
         controller: 'BoardCtrl',
         resolve: {
+        	currentBoard: function(Board, $stateParams) {
+        		return Board.getOne($stateParams.id).catch(function(err) {
+        			console.log(err);
+        		});
+        	},
         	allNotes: function(Board, $stateParams) {
         		return Board.getNotes($stateParams.id).catch(function(err) {
         			console.log(err);
@@ -22,6 +27,7 @@ app.factory('Board', function($http, $state) {
 			});
 		},
 		getOne: function(id) {
+			console.log('resolve', id);
 			return $http.get('api/boards/b/' + id).then(function(response) {
 				return response.data;
 			});
@@ -29,7 +35,7 @@ app.factory('Board', function($http, $state) {
 		getNotes: function(id) {
 			return $http.get('api/notes/board/' + id).then(function(response) {
 				return response.data;
-			})
+			});
 		}
 
 	};
@@ -68,7 +74,7 @@ app.directive('stickyNote', function(socket) {
 				// Update if the same note
 				console.log('data', data);
 				console.log('scope', scope.note);
-				if(data._id == scope.note._id) {
+				if(data._id === scope.note._id) {
 					element.animate({
 						left: data.x,
 						top: data.y
@@ -88,7 +94,7 @@ app.directive('stickyNote', function(socket) {
 		socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
 			console.log('onNoteUpdated before', data);
-			if(data._id == $scope.note._id) {
+			if(data._id === $scope.note._id) {
 				$scope.note.title = data.title;
 				$scope.note.body = data.body;
 			}
@@ -145,10 +151,11 @@ app.factory('socket', function($rootScope) {
 	};
 });
 
-app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNotes, $stateParams) {
-	$scope.board = {};
+app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNotes, currentBoard, $stateParams) {
+	$scope.board = currentBoard;
 	// console.log('board id: ', $stateParams.id);
 	$scope.notes = allNotes;
+	// console.log(allNostes);
 
 	// Board.getOne($stateParams.id)
 	// 	.then(function(board) {
@@ -181,6 +188,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 
 	// Outgoing
 	$scope.createNote = function(boardId) {
+		// console.log('note boardId', boardId);
 		var note = {
 			board: boardId,
 			title: 'New Note',
@@ -215,7 +223,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 		});
 
 		$scope.notes = newNotes;
-	}
+	};
 	// end test note persistence
 
 	// Outgoing
@@ -253,7 +261,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {	
 	$scope.createBoard = function() {
 		Board.create($scope.board.name).then(function(board) {
-			$state.go('board', {id: board._id})
+			$state.go('board', {id: board._id});
 		}).catch(function(err){
 			console.log(err);
 		});

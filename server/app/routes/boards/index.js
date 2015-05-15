@@ -12,7 +12,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/b/:id', function (req, res, next) {
+	console.log('hi');
 	Board.findById(req.params.id, function(err, board) {
+		console.log(board);
 		if(err) return next(err);
 		res.json(board);
 	});

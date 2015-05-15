@@ -26,9 +26,9 @@ module.exports = router;
 
 router.get('/board/:boardId', function (req, res, next) {
 	Note.find({board: req.params.boardId}, function(err, notes) {
-		// console.log(notes);
+		console.log(notes);
 		res.json(notes);
-	})
+	});
 });
 
 router.get('/:id', function (req, res, next) {
