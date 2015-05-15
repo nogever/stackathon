@@ -62,6 +62,16 @@ app.factory('Note', function($http, $state) {
 			return $http.delete('api/notes/' + id).then(function(response) {
 				return response.data;
 			});
+		},
+		upvote: function(id) {
+			return $http.put('api/notes/upvote/' + id).then(function(response) {
+				return response.data;
+			});
+		},
+		downvote: function(id) {
+			return $http.put('api/notes/downvote/' + id).then(function(response) {
+				return response.data;
+			});
 		}
 	};
 });
@@ -148,6 +158,30 @@ app.directive('stickyNote', function(socket, Note) {
 				id: id
 			});
 		};
+
+		$scope.upvote = function(id) {
+			// update note upvote in database
+
+			Note.upvote($scope.note._id)
+			.then(function(note){
+				console.log('note with new upvote ', note);
+			})
+			.catch(function(err) {
+				console.log('upvote errorrrrrr ', err);
+			});
+		};
+
+		$scope.downvote = function(id) {
+			// update note upvote in database
+
+			Note.downvote($scope.note._id)
+			.then(function(note){
+				console.log('note with new downvote ', note);
+			})
+			.catch(function(err) {
+				console.log('upvote errorrrrrr ', err);
+			});
+		};
 	};
 
 	return {
@@ -164,6 +198,7 @@ app.directive('stickyNote', function(socket, Note) {
 
 app.factory('socket', function($rootScope) {
 	var socket = io.connect();
+
 	return {
 		on: function(eventName, callback) {
 			socket.on(eventName, function() {

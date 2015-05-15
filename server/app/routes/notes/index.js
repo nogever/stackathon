@@ -51,6 +51,20 @@ router.put('/:id', function (req, res, next) {
 	});
 });
 
+router.put('/upvote/:id', function (req, res, next) {
+	Note.findByIdAndUpdate(req.params.id, { $inc: { upvote: 1 }}, function(err, note) {
+		if (err) return next(err);
+		res.json(note);
+	})
+})
+
+router.put('/downvote/:id', function (req, res, next) {
+	Note.findByIdAndUpdate(req.params.id, { $inc: { downvote: 1 }}, function(err, note) {
+		if (err) return next(err);
+		res.json(note);
+	})
+})
+
 router.delete('/:noteId', function (req, res, next) {
 	Note.findByIdAndRemove(req.params.noteId, function(err, doc) {
 		console.log('delete note in server', doc);
