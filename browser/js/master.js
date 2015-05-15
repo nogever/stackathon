@@ -52,6 +52,11 @@ app.factory('Note', function($http, $state) {
 			return $http.get('api/notes/' + id).then(function(response) {
 				return response.data;
 			});
+		},
+		deleteOne: function(id) {
+			return $http.delete('api/notes/' + id).then(function(response) {
+				return response.data;
+			});
 		}
 	};
 });
@@ -60,13 +65,11 @@ app.directive('stickyNote', function(socket) {
 	var linker = function(scope, element, attrs) {
 			element.draggable({
 				stop: function(event, ui) {
-					// console.log('draggable');
 					socket.emit('moveNote', {
 						_id: scope.note._id,
 						x: ui.position.left,
 						y: ui.position.top
 					});
-					// console.log('draggable');
 				}
 			});
 
@@ -215,14 +218,31 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	};
 
 	$scope.handleDeletedNoted = function(id) {
-		var oldNotes = $scope.notes,
-		newNotes = [];
+		// var oldNotes = $scope.notes,
+		// newNotes = [];
 
-		angular.forEach(oldNotes, function(note) {
-			if(note.id !== id) newNotes.push(note);
-		});
+		// angular.forEach(oldNotes, function(note) {
+		// 	if(note.id !== id) newNotes.push(note);
+		// });
 
-		$scope.notes = newNotes;
+		// $scope.notes = newNotes;
+
+		Note.deleteOne(id)
+		.then(function(note) {
+			console.log('deleted note', note);
+
+			Board.getNotes($stateParams.id)
+			.then(function(notes) {
+				$scope.notes = notes;
+			})
+			.catch(function(err) {
+	        	console.log(err);
+	        });
+	        
+		})
+		.catch(function(err) {
+			console.log(err);
+		})
 	};
 	// end test note persistence
 

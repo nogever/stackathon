@@ -44,6 +44,15 @@ router.post('/', function (req, res, next) {
 	});
 });
 
+router.delete('/:noteId', function (req, res, next) {
+	Note.findByIdAndRemove(req.params.noteId, function(err, doc) {
+		console.log('delete note in server', doc);
+		// if (err) res.status(500).send(err);
+		if(err) return next(err);
+		res.status(200).end();
+	});
+});
+
 
 
 
