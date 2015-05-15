@@ -53,6 +53,11 @@ app.factory('Note', function($http, $state) {
 				return response.data;
 			});
 		},
+		updateOne: function(id, updateNote) {
+			return $http.put('api/notes/' + id, updateNote).then(function(response) {
+				return response.data;
+			});
+		},
 		deleteOne: function(id) {
 			return $http.delete('api/notes/' + id).then(function(response) {
 				return response.data;
@@ -61,14 +66,31 @@ app.factory('Note', function($http, $state) {
 	};
 });
 
-app.directive('stickyNote', function(socket) {
+app.directive('stickyNote', function(socket, Note) {
 	var linker = function(scope, element, attrs) {
 			element.draggable({
 				stop: function(event, ui) {
+					console.log('ui position: ', ui);
 					socket.emit('moveNote', {
 						_id: scope.note._id,
 						x: ui.position.left,
 						y: ui.position.top
+					});
+					// update note position in database
+					Note.updateOne(
+						scope.note._id, 
+						{
+							position: {
+								x: ui.position.left, 
+								y: ui.position.top
+							}
+						}
+					)
+					.then(function(note){
+						console.log('note with new position ', note);
+					})
+					.catch(function(err) {
+						console.log('drag stop', err);
 					});
 				}
 			});
@@ -85,14 +107,24 @@ app.directive('stickyNote', function(socket) {
 				}
 			});
 
-			// Some DOM initiation to make it nice
-			element.css('left', '10px');
-			element.css('top', '50px');
-			element.hide().fadeIn();
+			Note.getOne(scope.note._id)
+			.then(function(note) {
+				if (!note) {
+					// Some DOM initiation to make it nice
+					element.css('left', '10px');
+					element.css('top', '50px');
+					element.hide().fadeIn();
+				} else {
+					element.css('left', note.position.x + 'px');
+					element.css('top', note.position.y + 'px');
+					element.hide().fadeIn();
+				}
+			});
+
 		};
 
 	var controller = function($scope) {
-		$scope.test = [1, 2, 3];
+		// $scope.test = [1, 2, 3];
 		// Incoming
 		socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
@@ -238,7 +270,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 			.catch(function(err) {
 	        	console.log(err);
 	        });
-	        
+
 		})
 		.catch(function(err) {
 			console.log(err);

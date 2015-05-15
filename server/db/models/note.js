@@ -8,6 +8,10 @@ var schema = new mongoose.Schema({
     url: {
         type: String
     },
+    position: { 
+        x: Number, 
+        y: Number 
+    },
     title: String,
     body: String,
     // todos: [{type: mongoose.Schema.Types.ObjectId, ref: 'Todo'}],
