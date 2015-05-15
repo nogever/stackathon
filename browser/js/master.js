@@ -107,10 +107,20 @@ app.directive('stickyNote', function(socket, Note) {
 				}
 			});
 
-			// Some DOM initiation to make it nice
-			element.css('left', '10px');
-			element.css('top', '50px');
-			element.hide().fadeIn();
+			Note.getOne(scope.note._id)
+			.then(function(note) {
+				if (!note) {
+					// Some DOM initiation to make it nice
+					element.css('left', '10px');
+					element.css('top', '50px');
+					element.hide().fadeIn();
+				} else {
+					element.css('left', note.position.x + 'px');
+					element.css('top', note.position.y + 'px');
+					element.hide().fadeIn();
+				}
+			});
+
 		};
 
 	var controller = function($scope) {
