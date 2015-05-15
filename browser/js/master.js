@@ -56,7 +56,7 @@ app.directive('stickyNote', function(socket) {
 				stop: function(event, ui) {
 					// console.log('draggable');
 					socket.emit('moveNote', {
-						id: scope.note.id,
+						_id: scope.note._id,
 						x: ui.position.left,
 						y: ui.position.top
 					});
@@ -66,14 +66,14 @@ app.directive('stickyNote', function(socket) {
 
 			socket.on('onNoteMoved', function(data) {
 				// Update if the same note
-				console.log('onNoteMoved before', data);
-				if(data.id == scope.note.id) {
+				console.log('data', data);
+				console.log('scope', scope.note);
+				if(data._id == scope.note._id) {
 					element.animate({
 						left: data.x,
 						top: data.y
 					});
 				}
-				console.log('onNoteMoved after', data);
 			});
 
 			// Some DOM initiation to make it nice
@@ -88,7 +88,7 @@ app.directive('stickyNote', function(socket) {
 		socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
 			console.log('onNoteUpdated before', data);
-			if(data.id == $scope.note.id) {
+			if(data._id == $scope.note._id) {
 				$scope.note.title = data.title;
 				$scope.note.body = data.body;
 			}
@@ -186,14 +186,14 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 			title: 'New Note',
 			body: 'Pending',
 			upvote: 0,
-			downvote: 0
+			downvote: 0,
 		};
 
-		socket.emit('createNote', note);
 
 		Note.create(note)
 			.then(function(note) {
 				$scope.notes.push(note);
+				socket.emit('createNote', note);
 			}).catch(function(err) {
 				console.log('create note errrrr ', err);
 			});
