@@ -90,6 +90,7 @@
 	border: none;
 	display: block;
 	width:180px;
+	max-width:180px;
 	font-size: 24px;
 }
 
@@ -97,6 +98,8 @@
 	background: transparent;
 	border: none;
 	display: block;
+	width:180px;
+	max-width:180px;
 	font-size: 24px;
 }
 
@@ -104,6 +107,26 @@ i.fa {
 	margin: 0 6px;
 }
 
+#createBoard {
+	position:absolute;
+	top:8px;
+	right:20px;
+	z-index: 1000;
+}
+
+#createNote {
+	position:absolute;
+	top:8px;
+	right: 250px;
+	z-index:1001;
+}
+
+.board-name {
+	position: absolute;
+	top: -17px;
+	left:100px;
+
+}
 
 
 

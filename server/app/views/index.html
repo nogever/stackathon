@@ -18,9 +18,9 @@
 <body ng-controller="MasterCtrl">
 
     <navbar></navbar>
-    <form name="newBoardForm" class="form-inline" novalidate>
+    <form id="createBoard" name="newBoardForm" class="form-inline" novalidate>
         <div class="form-group form-group-sm">
-        <label for="boardName">Name</label>
+        <label for="boardName" class="sr-only">Name</label>
         <input ng-model="board.name" ng-change="board.name" type="text" class="form-control" id="boardName" placeholder="Enter board name...">
         </div>
         <button type="submit" id="create-board" class="btn btn-default" ng-disabled="newBoardForm.$invalid" ng-click="createBoard()">Create</button>
