@@ -1,4 +1,5 @@
 <div class="sticky-note yellow">
+	<i class="pin"></i>
 	<button type="button" class="close pull-right" ng-click="deleteNote(note._id)">&times;</button>
 	<input ng-model="note.title" ng-change="updateNote(note)" type="text" class="title" >
 	<textarea ng-model="note.body" ng-change="updateNote(note)" class="body">{{note.body}}</textarea>
