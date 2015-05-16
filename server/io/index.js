@@ -15,7 +15,7 @@ module.exports = function (server) {
         socket.on('createNote', function(data) {
             room = data.board;
             socket.join(room);
-            // console.log('room???', room);
+            console.log('room???', room);
             socket.broadcast.to(room).emit('onNoteCreated', data);
         });
 
