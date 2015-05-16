@@ -11,21 +11,24 @@ module.exports = function (server) {
     io.on('connection', function (socket) {
 
         console.log('Now have access to socket, wowzers!');
-        
+        var room;
         socket.on('createNote', function(data) {
-            socket.join(room).broadcast.emit('onNoteCreated', data);
+            room = data.board;
+            socket.join(room);
+            // console.log('room???', room);
+            socket.broadcast.to(room).emit('onNoteCreated', data);
         });
 
         socket.on('updateNote', function(data) {
-            socket.join(room).broadcast.emit('onNoteUpdated', data);
+            socket.broadcast.to(room).emit('onNoteUpdated', data);
         });
 
         socket.on('moveNote', function(data){
-            socket.join(room).broadcast.emit('onNoteMoved', data);
+            socket.broadcast.to(room).emit('onNoteMoved', data);
         });
 
         socket.on('deleteNote', function(data){
-            socket.join(room).broadcast.emit('onNoteDeleted', data);
+            socket.broadcast.to(room).emit('onNoteDeleted', data);
         });
 
 
