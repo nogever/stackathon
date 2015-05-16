@@ -119,7 +119,7 @@ app.directive('stickyNote', function(socket, Note) {
 
 			Note.getOne(scope.note._id)
 			.then(function(note) {
-				if (!note) {
+				if (!note.position) {
 					// Some DOM initiation to make it nice
 					element.css('left', '10px');
 					element.css('top', '50px');
@@ -267,6 +267,10 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 			body: 'Pending',
 			upvote: 0,
 			downvote: 0,
+			position: {
+				x: 10,
+				y: 50
+			}
 		};
 
 

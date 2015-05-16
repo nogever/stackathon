@@ -1,11 +1,11 @@
 <h1>{{ board.name }}</h1>
-<pre>{{board}}</pre>
+<!-- <pre>{{board}}</pre> -->
 <button id="createButton" ng-click="createNote(board._id)" class="btn btn-info pull-right">Create Note</button>
 <div style="width: 100vw;height: 100vh;">
 	<sticky-note ng-repeat="note in notes" note="note" ondelete="deleteNote(note._id)"></sticky-note>
 </div>
 
-<pre>{{notes | json}}</pre>
+<!-- <pre>{{notes | json}}</pre> -->
 
 
 
