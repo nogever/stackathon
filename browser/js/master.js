@@ -309,21 +309,16 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 		// });
 
 		Note.deleteOne(id)
+		// .then(Board.getNotes.bind(Board, $stateParams.id))
 		.then(function(note) {
-			console.log('deleted note', note);
-
-			Board.getNotes($stateParams.id)
-			.then(function(notes) {
-				$scope.notes = notes;
-			})
-			.catch(function(err) {
-	        	console.log(err);
-	        });
-
+			return Board.getNotes($stateParams.id)
+		})
+		.then(function(notes) {
+			$scope.notes = notes;
 		})
 		.catch(function(err) {
-			console.log(err);
-		});
+	        console.log(err);
+	    });
 	};
 	// end test note persistence
 
