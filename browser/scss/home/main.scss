@@ -11,9 +11,20 @@
 }
 
 .sticky-note {
+	font-family: "Reenie Beanie",arial,sans-serif;
 	position: absolute;
 	color: #000;
 	padding: 15px;
+	/* Firefox */
+  	-moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+  	/* Safari+Chrome */
+  	-webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  	/* Opera */
+  	box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+
+  	.close {
+  		font-family: 'Lato', Calibri, Arial, sans-serif;
+  	}
 
 	&.yellow {
 		background-color: #ffffa5;
@@ -28,14 +39,15 @@
 	background: transparent;
 	border: none;
 	display: block;
-	width:145px;
-	font-size: 18px;
+	width:180px;
+	font-size: 24px;
 }
 
 .sticky-note .body {
 	background: transparent;
 	border: none;
 	display: block;
+	font-size: 24px;
 }
 
 i.fa {
