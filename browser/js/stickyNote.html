@@ -1,11 +1,13 @@
 <div class="sticky-note yellow">
-	<button type="button" class="close" ng-click="deleteNote(note.id)">&times;</button>
+	<button type="button" class="close pull-right" ng-click="deleteNote(note._id)">&times;</button>
 	<input ng-model="note.title" ng-change="updateNote(note)" type="text" class="title" >
 	<textarea ng-model="note.body" ng-change="updateNote(note)" class="body">{{note.body}}</textarea>
 	<div class="note-utilities">
 		<i class="fa fa-comment"></i>
-		<i class="fa fa-hand-o-up"></i>
-		<i class="fa fa-hand-o-down"></i>
+		<i class="fa fa-hand-o-up" ng-click="upvote(note._id)"></i>
+		{{note.upvote}}
+		<i class="fa fa-hand-o-down" ng-click="downvote(note._id)"></i>
+		{{note.downvote}}
 		<i class="fa fa-link"></i>
 		<i class="fa fa-list-ul"></i>
 	</div>

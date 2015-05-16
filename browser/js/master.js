@@ -62,6 +62,16 @@ app.factory('Note', function($http, $state) {
 			return $http.delete('api/notes/' + id).then(function(response) {
 				return response.data;
 			});
+		},
+		upvote: function(id) {
+			return $http.put('api/notes/upvote/' + id).then(function(response) {
+				return response.data;
+			});
+		},
+		downvote: function(id) {
+			return $http.put('api/notes/downvote/' + id).then(function(response) {
+				return response.data;
+			});
 		}
 	};
 });
@@ -128,24 +138,50 @@ app.directive('stickyNote', function(socket, Note) {
 		// Incoming
 		socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
-			console.log('onNoteUpdated before', data);
 			if(data._id === $scope.note._id) {
 				$scope.note.title = data.title;
 				$scope.note.body = data.body;
 			}
-			console.log('onNoteUpdated after', data);
 		});
 
 		// Outgoing
 		$scope.updateNote = function(note) {
-			console.log('updateNote', note);
 			socket.emit('updateNote', note);
+				Note.updateOne($scope.note._id, $scope.note).then(function(note) {
+					$scope.note = note;
+				}).catch(function(err) {
+					console.log('eeeeeeerr');
+				});
 		};
 
 		$scope.deleteNote = function(id) {
 			console.log('deleteNote in directive', id);
 			$scope.ondelete({
 				id: id
+			});
+		};
+
+		$scope.upvote = function(id) {
+			// update note upvote in database
+
+			Note.upvote($scope.note._id)
+			.then(function(note){
+				$scope.note = note;
+			})
+			.catch(function(err) {
+				console.log('upvote errorrrrrr ', err);
+			});
+		};
+
+		$scope.downvote = function(id) {
+			// update note upvote in database
+
+			Note.downvote($scope.note._id)
+			.then(function(note){
+				$scope.note = note;
+			})
+			.catch(function(err) {
+				console.log('upvote errorrrrrr ', err);
 			});
 		};
 	};
@@ -164,6 +200,7 @@ app.directive('stickyNote', function(socket, Note) {
 
 app.factory('socket', function($rootScope) {
 	var socket = io.connect();
+
 	return {
 		on: function(eventName, callback) {
 			socket.on(eventName, function() {
