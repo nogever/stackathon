@@ -27,7 +27,6 @@ app.factory('Board', function($http, $state) {
 			});
 		},
 		getOne: function(id) {
-			console.log('resolve', id);
 			return $http.get('api/boards/b/' + id).then(function(response) {
 				return response.data;
 			});
@@ -80,7 +79,7 @@ app.directive('stickyNote', function(socket, Note) {
 	var linker = function(scope, element, attrs) {
 			element.draggable({
 				stop: function(event, ui) {
-					console.log('ui position: ', ui);
+					// console.log('ui position: ', ui);
 					socket.emit('moveNote', {
 						_id: scope.note._id,
 						x: ui.position.left,
@@ -119,16 +118,16 @@ app.directive('stickyNote', function(socket, Note) {
 
 			Note.getOne(scope.note._id)
 			.then(function(note) {
-				if (!note.position) {
-					// Some DOM initiation to make it nice
-					element.css('left', '10px');
-					element.css('top', '50px');
-					element.hide().fadeIn();
-				} else {
+				// if (!note.position) {
+				// 	// Some DOM initiation to make it nice
+				// 	element.css('left', '10px');
+				// 	element.css('top', '50px');
+				// 	element.hide().fadeIn();
+				// } else {
 					element.css('left', note.position.x + 'px');
 					element.css('top', note.position.y + 'px');
-					element.hide().fadeIn();
-				}
+					element.fadeIn('fast');
+				// }
 			});
 
 		};
@@ -155,7 +154,7 @@ app.directive('stickyNote', function(socket, Note) {
 		};
 
 		$scope.deleteNote = function(id) {
-			console.log('deleteNote in directive', id);
+			// console.log('deleteNote in directive', id);
 			$scope.ondelete({
 				id: id
 			});
@@ -163,7 +162,6 @@ app.directive('stickyNote', function(socket, Note) {
 
 		$scope.upvote = function(id) {
 			// update note upvote in database
-
 			Note.upvote($scope.note._id)
 			.then(function(note){
 				$scope.note = note;
@@ -175,7 +173,6 @@ app.directive('stickyNote', function(socket, Note) {
 
 		$scope.downvote = function(id) {
 			// update note upvote in database
-
 			Note.downvote($scope.note._id)
 			.then(function(note){
 				$scope.note = note;
@@ -225,9 +222,7 @@ app.factory('socket', function($rootScope) {
 
 app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNotes, currentBoard, $stateParams) {
 	$scope.board = currentBoard;
-	// console.log('board id: ', $stateParams.id);
 	$scope.notes = allNotes;
-	// console.log(allNostes);
 
 	// Board.getOne($stateParams.id)
 	// 	.then(function(board) {
@@ -246,7 +241,6 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	// 	.catch(function(err) {
 	// 		console.log('err ', err);
 	// 	});
-
 
 	// test note persistence
 	// Incoming
@@ -273,7 +267,6 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 			}
 		};
 
-
 		Note.create(note)
 			.then(function(note) {
 				$scope.notes.push(note);
@@ -285,7 +278,6 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 
 	$scope.deleteNote = function(id) {
 		$scope.handleDeletedNoted(id);
-
 		socket.emit('deleteNote', {id: id});
 		// console.log('deleteNote in coltroller', id);
 	};
@@ -293,26 +285,31 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	$scope.handleDeletedNoted = function(id) {
 		// var oldNotes = $scope.notes,
 		// newNotes = [];
-
 		// angular.forEach(oldNotes, function(note) {
 		// 	if(note.id !== id) newNotes.push(note);
 		// });
-
 		// $scope.notes = newNotes;
+		$scope.handleDeletedNoted = function(id) {
+				var oldNotes = $scope.notes,
+				newNotes = [];
 
-		Note.deleteOne(id)
-		.then(function(note) {
-			console.log('deleted note', note);
+				angular.forEach(oldNotes, function(note) {
+					if(note.id !== id) newNotes.push(note);
+				});
 
-			Board.getNotes($stateParams.id)
-			.then(function(notes) {
-				$scope.notes = notes;
-			})
-			.catch(function(err) {
-	        	console.log(err);
-	        });
+		Note.deleteOne(id);
+		// .then(function(note) {
+		// 	console.log('deleted note', note);
 
-		})
+		// 	Board.getNotes($stateParams.id)
+		// 	.then(function(notes) {
+		// 		$scope.notes = notes;
+		// 	})
+		// 	.catch(function(err) {
+	 //        	console.log(err);
+	 //        });
+
+		// })
 		.catch(function(err) {
 			console.log(err);
 		})
