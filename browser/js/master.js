@@ -118,22 +118,15 @@ app.directive('stickyNote', function(socket, Note) {
 
 			Note.getOne(scope.note._id)
 			.then(function(note) {
-				// if (!note.position) {
-				// 	// Some DOM initiation to make it nice
-				// 	element.css('left', '10px');
-				// 	element.css('top', '50px');
-				// 	element.hide().fadeIn();
-				// } else {
-					element.css('left', note.position.x + 'px');
-					element.css('top', note.position.y + 'px');
-					element.fadeIn('fast');
-				// }
+				element.css('left', note.position.x + 'px');
+				element.css('top', note.position.y + 'px');
+				element.fadeIn('fast');
 			});
 
 		};
 
-	var controller = function($scope) {
-		// $scope.test = [1, 2, 3];
+	var controller = function($scope, $modal) {
+		var note = $scope.note;
 		// Incoming
 		socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
@@ -154,14 +147,12 @@ app.directive('stickyNote', function(socket, Note) {
 		};
 
 		$scope.deleteNote = function(id) {
-			// console.log('deleteNote in directive', id);
 			$scope.ondelete({
 				id: id
 			});
 		};
 
 		$scope.upvote = function(id) {
-			// update note upvote in database
 			Note.upvote($scope.note._id)
 			.then(function(note){
 				$scope.note = note;
@@ -172,13 +163,35 @@ app.directive('stickyNote', function(socket, Note) {
 		};
 
 		$scope.downvote = function(id) {
-			// update note upvote in database
 			Note.downvote($scope.note._id)
 			.then(function(note){
 				$scope.note = note;
 			})
 			.catch(function(err) {
 				console.log('upvote errorrrrrr ', err);
+			});
+		};
+
+		$scope.animationsEnabled = true;
+
+		$scope.openModal = function(size) {
+			console.log('note: ', note);
+			console.log('scope.note: ', $scope.note);
+			var modalInstance = $modal.open({
+				animation: $scope.animationsEnabled,
+				templateUrl: 'noteModal.html',
+				controller: 'ModalInstanceCtrl',
+				size: size,
+				resolve: {
+					note: function() {
+						return $scope.note;
+					}
+				}
+			});
+			modalInstance.result.then(function() {
+				console.log('hi modal');
+			}, function() {
+				console.log('bye modal');
 			});
 		};
 	};
@@ -217,42 +230,15 @@ app.factory('socket', function($rootScope) {
 				});
 			});
 		}
-		// join: function(roomName, callback) {
-		// 	socket.join(roomName, function() {
-		// 		var args = arguments;
-		// 		$rootScope.$apply(function() {
-		// 			if (callback) {
-		// 				callback.apply(socket, args);
-		// 			}
-		// 		})
-		// 	});
-		// }
 	};
+
 });
 
 app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNotes, currentBoard, $stateParams) {
 	$scope.board = currentBoard;
 	$scope.notes = allNotes;
 	socket.emit('joinRoom', $scope.board);
-	// Board.getOne($stateParams.id)
-	// 	.then(function(board) {
-	// 		// console.log('new board ', board);
-	// 		$scope.board = board;
-	// 	})
-	// 	.then(Board.getNotes($scope.board._id))
-	// 	.then(function(notes) {
-	// 		console.log('board.getNotes', notes);
-	// 		if (notes === undefined) {
-	// 			$scope.notes = [];
-	// 		} else {
-	// 			$scope.notes = notes;
-	// 		}
-	// 	})
-	// 	.catch(function(err) {
-	// 		console.log('err ', err);
-	// 	});
 
-	// test note persistence
 	// Incoming
 	socket.on('onNoteCreated', function(data) {
 		$scope.notes.push(data);
@@ -293,20 +279,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 		// console.log('deleteNote in coltroller', id);
 	};
 
-	// $scope.handleDeletedNoted = function(id) {
-		// var oldNotes = $scope.notes,
-		// newNotes = [];
-		// angular.forEach(oldNotes, function(note) {
-		// 	if(note.id !== id) newNotes.push(note);
-		// });
-		// $scope.notes = newNotes;
 	$scope.handleDeletedNoted = function(id) {
-		// var oldNotes = $scope.notes,
-		// newNotes = [];
-
-		// angular.forEach(oldNotes, function(note) {
-		// 	if(note.id !== id) newNotes.push(note);
-		// });
 
 		Note.deleteOne(id)
 		// .then(Board.getNotes.bind(Board, $stateParams.id))
@@ -320,38 +293,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	        console.log(err);
 	    });
 	};
-	// end test note persistence
 
-	// Outgoing
-	// $scope.createNote = function() {
-	// 	var note = {
-	// 		id: new Date().getTime(),
-	// 		title: 'New Note',
-	// 		body: 'Pending'
-	// 	};
-
-	// 	$scope.notes.push(note);
-	// 	socket.emit('createNote', note);
-	// 	// console.log('createNote in controller', note);
-	// };
-
-	// $scope.deleteNote = function(id) {
-	// 	$scope.handleDeletedNoted(id);
-
-	// 	socket.emit('deleteNote', {id: id});
-	// 	// console.log('deleteNote in coltroller', id);
-	// };
-
-	// $scope.handleDeletedNoted = function(id) {
-	// 	var oldNotes = $scope.notes,
-	// 	newNotes = [];
-
-	// 	angular.forEach(oldNotes, function(note) {
-	// 		if(note.id !== id) newNotes.push(note);
-	// 	});
-
-	// 	$scope.notes = newNotes;
-	// }
 });
 
 app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {	
@@ -365,7 +307,15 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	};
 });
 
-
+app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note) {
+	$scope.note = note;
+	// $scope.ok = function() {
+	// 	$modalInstance.close($scope.selected.item);
+	// };
+	// $scope.cancel = function() {
+	// 	$modalInstance.dismiss('cancel');
+	// };
+});
 
 
 
