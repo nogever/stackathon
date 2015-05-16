@@ -138,18 +138,20 @@ app.directive('stickyNote', function(socket, Note) {
 		// Incoming
 		socket.on('onNoteUpdated', function(data) {
 			// Update if the same note
-			console.log('onNoteUpdated before', data);
 			if(data._id === $scope.note._id) {
 				$scope.note.title = data.title;
 				$scope.note.body = data.body;
 			}
-			console.log('onNoteUpdated after', data);
 		});
 
 		// Outgoing
 		$scope.updateNote = function(note) {
-			console.log('updateNote', note);
 			socket.emit('updateNote', note);
+				Note.updateOne($scope.note._id, $scope.note).then(function(note) {
+					$scope.note = note;
+				}).catch(function(err) {
+					console.log('eeeeeeerr');
+				});
 		};
 
 		$scope.deleteNote = function(id) {
@@ -164,7 +166,7 @@ app.directive('stickyNote', function(socket, Note) {
 
 			Note.upvote($scope.note._id)
 			.then(function(note){
-				console.log('note with new upvote ', note);
+				$scope.note = note;
 			})
 			.catch(function(err) {
 				console.log('upvote errorrrrrr ', err);
@@ -176,7 +178,7 @@ app.directive('stickyNote', function(socket, Note) {
 
 			Note.downvote($scope.note._id)
 			.then(function(note){
-				console.log('note with new downvote ', note);
+				$scope.note = note;
 			})
 			.catch(function(err) {
 				console.log('upvote errorrrrrr ', err);
