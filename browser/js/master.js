@@ -96,7 +96,7 @@ app.directive('stickyNote', function(socket, Note) {
 						}
 					)
 					.then(function(note){
-						console.log('note with new position ', note);
+						console.log('note with new position ');
 					})
 					.catch(function(err) {
 						console.log('drag stop', err);
@@ -106,8 +106,6 @@ app.directive('stickyNote', function(socket, Note) {
 
 			socket.on('onNoteMoved', function(data) {
 				// Update if the same note
-				console.log('data', data);
-				console.log('scope', scope.note);
 				if(data._id === scope.note._id) {
 					element.animate({
 						left: data.x,
@@ -175,8 +173,6 @@ app.directive('stickyNote', function(socket, Note) {
 		$scope.animationsEnabled = true;
 
 		$scope.openModal = function(size) {
-			console.log('note: ', note);
-			console.log('scope.note: ', $scope.note);
 			var modalInstance = $modal.open({
 				animation: $scope.animationsEnabled,
 				templateUrl: 'noteModal.html',
