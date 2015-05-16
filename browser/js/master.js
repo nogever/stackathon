@@ -217,13 +217,23 @@ app.factory('socket', function($rootScope) {
 				});
 			});
 		}
+		// join: function(roomName, callback) {
+		// 	socket.join(roomName, function() {
+		// 		var args = arguments;
+		// 		$rootScope.$apply(function() {
+		// 			if (callback) {
+		// 				callback.apply(socket, args);
+		// 			}
+		// 		})
+		// 	});
+		// }
 	};
 });
 
 app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNotes, currentBoard, $stateParams) {
 	$scope.board = currentBoard;
 	$scope.notes = allNotes;
-
+	socket.emit('joinRoom', $scope.board);
 	// Board.getOne($stateParams.id)
 	// 	.then(function(board) {
 	// 		// console.log('new board ', board);
@@ -270,6 +280,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 		Note.create(note)
 			.then(function(note) {
 				$scope.notes.push(note);
+				// socket.join(note.board);
 				socket.emit('createNote', note);
 			}).catch(function(err) {
 				console.log('create note errrrr ', err);
@@ -290,12 +301,12 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 		// });
 		// $scope.notes = newNotes;
 	$scope.handleDeletedNoted = function(id) {
-		var oldNotes = $scope.notes,
-		newNotes = [];
+		// var oldNotes = $scope.notes,
+		// newNotes = [];
 
-		angular.forEach(oldNotes, function(note) {
-			if(note.id !== id) newNotes.push(note);
-		});
+		// angular.forEach(oldNotes, function(note) {
+		// 	if(note.id !== id) newNotes.push(note);
+		// });
 
 		Note.deleteOne(id)
 		.then(function(note) {
@@ -352,6 +363,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	$scope.createBoard = function() {
 		Board.create($scope.board.name).then(function(board) {
 			$state.go('board', {id: board._id});
+			// socket.emit('newBoard', board);
 		}).catch(function(err){
 			console.log(err);
 		});

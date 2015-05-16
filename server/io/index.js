@@ -12,10 +12,18 @@ module.exports = function (server) {
 
         console.log('Now have access to socket, wowzers!');
         var room;
-        socket.on('createNote', function(data) {
-            room = data.board;
+        socket.on('joinRoom', function(board) {
+            room = board._id;
             socket.join(room);
             console.log('room???', room);
+            console.log('socket rooms???', socket.rooms);
+        });
+        
+        socket.on('createNote', function(data) {
+            // room = data.board;
+            // console.log('room???', room);
+            // socket.join(room);
+            console.log('rooms in socket???', socket.rooms);
             socket.broadcast.to(room).emit('onNoteCreated', data);
         });
 
