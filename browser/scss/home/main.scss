@@ -119,6 +119,10 @@ i.fa {
 	top:8px;
 	right: 250px;
 	z-index:1001;
+
+	& .btn {
+		border-radius: 0;
+	}
 }
 
 .board-name {
@@ -127,6 +131,7 @@ i.fa {
 	left:100px;
 
 }
+
 
 
 

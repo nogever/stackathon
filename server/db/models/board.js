@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-    name: String
+    name: String,
+    backgroundImg: String
     // ,
     // notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}]
 });
