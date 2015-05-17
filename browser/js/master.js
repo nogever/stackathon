@@ -301,6 +301,18 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 			console.log(err);
 		});
 	};
+
+	$scope.images = [
+		'/images/healthy.jpg',
+		'/images/city.jpg',
+		'/images/rain.jpg'
+	];
+
+	$scope.switchBg = function(imagePath) {
+		console.log('hi');
+		angular.element('body').css('background-image', 'url(' + imagePath + ')');
+	};
+
 });
 
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note) {
