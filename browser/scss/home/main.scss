@@ -14,7 +14,7 @@
 	font-family: "Reenie Beanie",arial,sans-serif;
 	position: absolute;
 	color: #000;
-	padding: 15px;
+	padding: 0 6px 6px 10px;
 	/* Firefox */
   	-moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
   	/* Safari+Chrome */
@@ -104,7 +104,7 @@
 }
 
 i.fa {
-	margin: 0 6px;
+	margin: 0 4px;
 }
 
 #createBoard {
