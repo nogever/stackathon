@@ -1,11 +1,31 @@
 <h1 class="board-name">{{ board.name }}</h1>
 <!-- <pre>{{board}}</pre> -->
-<button id="createNote" ng-click="createNote(board._id)" class="btn btn-info pull-right">Create Note</button>
-<div style="width: 100vw;height: 100vh;position:relative;">
+<div id="shareBoard">
+	<i class="fa fa-share" ng-click="shareBoardModal('md')"></i>
+</div>
+<div id="createNote"
+	 ng-click="createNote(board._id)">
+	 <i class="fa fa-pencil"></i>
+</div>
+<!-- <button id="createNote" ng-click="createNote(board._id)" class="btn btn-info pull-right">Create Note</button>
+ --><div style="width: 100vw;height: 100vh;position:relative;">
 	<sticky-note ng-repeat="note in notes" note="note" ondelete="deleteNote(note._id)" style="display:none; width:229px;"></sticky-note>
 </div>
 
 <!-- <pre>{{notes | json}}</pre> -->
+
+<script type="text/ng-template" id="boardModal.html">
+	<div class="modal-header">
+	    <h3 class="modal-title">Share the following room with others</h3>
+	</div>
+	<div class="modal-body">
+		<input type="text" value="www.brainstorming.com/board/{{board._id}}" class="form-control">
+	</div>
+	</div>
+	<div class="modal-footer">
+	    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
 
 
 

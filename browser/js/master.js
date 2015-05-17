@@ -239,7 +239,7 @@ app.factory('socket', function($rootScope) {
 
 });
 
-app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNotes, currentBoard, $stateParams) {
+app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket, allNotes, currentBoard, $stateParams) {
 	$scope.board = currentBoard;
 	$scope.notes = allNotes;
 	socket.emit('joinRoom', $scope.board);
@@ -282,7 +282,6 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	$scope.deleteNote = function(id) {
 		$scope.handleDeletedNoted(id);
 		socket.emit('deleteNote', {id: id});
-		// console.log('deleteNote in coltroller', id);
 	};
 
 	$scope.handleDeletedNoted = function(id) {
@@ -298,6 +297,20 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 		.catch(function(err) {
 	        console.log(err);
 	    });
+	};
+
+	$scope.shareBoardModal = function(size) {
+		var modalInstance = $modal.open({
+			animation: $scope.animationsEnabled,
+			templateUrl: 'boardModal.html',
+			controller: 'BoardModalInstanceCtrl',
+			size: size,
+			resolve: {
+				board: function() {
+					return $scope.board;
+				}
+			}
+		});
 	};
 
 });
@@ -349,12 +362,16 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note) {
 	$scope.note = note;
-	// $scope.ok = function() {
-	// 	$modalInstance.close($scope.selected.item);
-	// };
-	// $scope.cancel = function() {
-	// 	$modalInstance.dismiss('cancel');
-	// };
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+});
+
+app.controller('BoardModalInstanceCtrl', function($scope, $modalInstance, board) {
+	$scope.board = board;
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
 });
 
 
