@@ -18,6 +18,13 @@ router.get('/b/:id', function (req, res, next) {
 	});
 });
 
+router.put('/:id', function (req, res, next) {
+	Board.findByIdAndUpdate(req.params.id, { $set: req.body }, function(err, board) {
+		if (err) return next(err);
+		res.json(board);
+	});
+});
+
 router.post('/', function(req, res, next) {
 	Board.create(req.body, function(err, board) {
 		res.json(board);

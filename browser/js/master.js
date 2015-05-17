@@ -22,19 +22,28 @@ app.config(function ($stateProvider) {
 app.factory('Board', function($http, $state) {
 	return {
 		create: function(name) {
-			return $http.post('api/boards', {name: name}).then(function(response) {
-				return response.data;
-			});
+			return $http.post('api/boards', {name: name})
+						.then(function(response) {
+							return response.data;
+						});
+		},
+		updateOne: function(id, imgUrl) {
+			return $http.put('api/boards/' + id, {backgroundImg: imgUrl})
+						.then(function(response) {
+							return response.data;
+						});
 		},
 		getOne: function(id) {
-			return $http.get('api/boards/b/' + id).then(function(response) {
-				return response.data;
-			});
+			return $http.get('api/boards/b/' + id)
+						.then(function(response) {
+							return response.data;
+						});
 		},
 		getNotes: function(id) {
-			return $http.get('api/notes/board/' + id).then(function(response) {
-				return response.data;
-			});
+			return $http.get('api/notes/board/' + id)
+						.then(function(response) {
+							return response.data;
+						});
 		}
 
 	};
@@ -234,6 +243,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	$scope.board = currentBoard;
 	$scope.notes = allNotes;
 	socket.emit('joinRoom', $scope.board);
+	$scope.$emit('boardInfo', $scope.board);
 
 	// Incoming
 	socket.on('onNoteCreated', function(data) {
@@ -292,10 +302,16 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 
 });
 
-app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {	
+app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {
+
+	$scope.$on('boardInfo', function(event, data) {
+		$scope.currentBoard = data;
+	})
+
 	$scope.createBoard = function() {
 		Board.create($scope.board.name).then(function(board) {
 			$state.go('board', {id: board._id});
+			$scope.currentBoard = board;
 			// socket.emit('newBoard', board);
 		}).catch(function(err){
 			console.log(err);
@@ -308,10 +324,26 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 		'/images/rain.jpg'
 	];
 
+
 	$scope.switchBg = function(imagePath) {
-		console.log('hi');
+		console.log('master ctrl', $scope);
 		angular.element('body').css('background-image', 'url(' + imagePath + ')');
+		Board.updateOne($scope.currentBoard._id, imagePath)
+			 .then(function(board) {
+			 	console.log('board with new background ', board);
+			 	socket.emit('changeBoardBg', board);
+			 }).catch(function(err) {
+			 	console.log(err);
+			 })
 	};
+
+	socket.on('onChangeBoardBg', function(data) {
+		// Update if the same board
+		// if(data._id === $scope.board._id) {
+			console.log('change board background socket incoming', data._id, $scope.board._id);
+			angular.element('body').css('background-image', 'url(' + data.backgroundImg + ')');
+		// }
+	});
 
 });
 

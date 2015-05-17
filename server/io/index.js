@@ -39,6 +39,10 @@ module.exports = function (server) {
             socket.broadcast.to(room).emit('onNoteDeleted', data);
         });
 
+        socket.on('changeBoardBg', function(data){
+            socket.broadcast.to(room).emit('onChangeBoardBg', data);
+        });
+
 
     });
 
