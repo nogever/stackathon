@@ -244,6 +244,8 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	$scope.notes = allNotes;
 	socket.emit('joinRoom', $scope.board);
 	$scope.$emit('boardInfo', $scope.board);
+	$scope.$parent.showBoardForm = false;
+	console.log('parent showBoardForm ', $scope.$parent.showBoardForm, $scope.$parent);
 
 	// Incoming
 	socket.on('onNoteCreated', function(data) {
@@ -341,6 +343,8 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 
 app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {
 
+	$scope.showBoardForm = true;
+
 	$scope.$on('boardInfo', function(event, data) {
 		$scope.currentBoard = data;
 	})
@@ -349,6 +353,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 		Board.create($scope.board.name).then(function(board) {
 			$state.go('board', {id: board._id});
 			$scope.currentBoard = board;
+			console.log('showBoardForm', $scope.showBoardForm);
 			// socket.emit('newBoard', board);
 		}).catch(function(err){
 			console.log(err);

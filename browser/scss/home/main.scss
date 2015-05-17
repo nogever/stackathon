@@ -108,9 +108,10 @@ i.fa {
 }
 
 #createBoard {
-	position:absolute;
-	top:8px;
-	right:200px;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	margin-left: -194px;
 	z-index: 1000;
 }
 
