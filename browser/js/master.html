@@ -1,5 +1,19 @@
+<nav class="off-canvas">
+    <h4>BACKGROUND</h4>
+    <ul class="bgs">
+        <li ng-repeat="image in images" ng-click="switchBg(image)">
+            <img src="{{ image }}">
+        </li>
+    </ul>
+</nav>
+
 <h1 class="board-name">{{ board.name }}</h1>
 <!-- <pre>{{board}}</pre> -->
+
+<div id="changeBoardBg">
+	<i class="fa fa-bars" ng-click="offCanvas()"></i>
+</div>
+
 <div id="shareBoard">
 	<i class="fa fa-share" ng-click="shareBoardModal('md')"></i>
 </div>
