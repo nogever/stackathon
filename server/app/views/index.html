@@ -26,12 +26,12 @@
         </ul>
     </nav>
     <navbar></navbar>
-    <form id="createBoard" name="newBoardForm" class="form-inline" novalidate>
+    <form id="createBoard" name="newBoardForm" class="form-inline ls-form" ng-submit="" novalidate>
         <div class="form-group form-group-sm">
         <label for="boardName" class="sr-only">Name</label>
-        <input ng-model="board.name" ng-change="board.name" type="text" class="form-control" id="boardName" placeholder="Enter board name...">
+        <input ng-model="board.name" ng-change="board.name" type="text" class="form-control" id="boardName" placeholder="Enter board name..." required>
         </div>
-        <button type="submit" id="create-board" class="btn btn-default" ng-disabled="newBoardForm.$invalid" ng-click="createBoard()">Create</button>
+        <button type="submit" id="create-board" class="btn" ng-disabled="newBoardForm.$invalid" ng-click="createBoard()">Create</button>
         <!-- <button type="submit" id="replace-board" class="btn btn-danger" ng-disabled="newBoardForm.$invalid" ng-click="replaceBoard({id: board.name})">Create</button> -->
     </form>
 
