@@ -17,7 +17,14 @@
     <script src="/jquery-ui/jquery-ui.js"></script>
 </head>
 <body ng-controller="MasterCtrl">
-
+    <nav class="off-canvas">
+        <h4>BACKGROUND</h4>
+        <ul class="bgs">
+            <li ng-repeat="image in images" ng-click="switchBg(image)">
+                <img src="{{ image }}">
+            </li>
+        </ul>
+    </nav>
     <navbar></navbar>
     <form id="createBoard" name="newBoardForm" class="form-inline" novalidate>
         <div class="form-group form-group-sm">

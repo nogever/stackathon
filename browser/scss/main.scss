@@ -5,6 +5,7 @@
 
 body {
 	background: url('images/healthy.jpg');
+	background-size: cover;
 }
 
 @mixin clearfix {
@@ -21,3 +22,29 @@ body {
 @import 'about/main';
 @import 'tutorial/main';
 @import 'login/main';
+
+
+.off-canvas-on {
+	margin-left: 210px;
+}
+.off-canvas {
+	position: absolute;
+	left: -210px;
+	height: 100vh;
+	width: 210px;
+	background: #333333;
+	text-align: center;
+	& img {
+		max-width: 90%;
+		margin: 6px 0;
+	}
+	&.off-canvas-in {
+		left: 0;
+		color: #ddd;
+	}
+	ul, li {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+}
