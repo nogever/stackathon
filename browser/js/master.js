@@ -379,6 +379,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	$scope.offCanvas = function() {
 		angular.element('html').toggleClass('off-canvas-on');
 		angular.element('.off-canvas').toggleClass('off-canvas-in');
+		angular.element('#changeBoardBg').toggleClass('cse-menu-open');
 	};
 
 	$scope.images = [

@@ -106,7 +106,71 @@
 	border-color: darken($labelGrey, 30%) !important;
 }
 
-
+#changeBoardBg {
+	position: relative;
+	margin-top: 8px;
+	margin-left: 20px;
+	font-size: 30px;
+	z-index:1001;
+	width: 40px;
+	height: 40px;
+}
+#changeBoardBg {
+  position: absolute;
+  margin-left: 20px;
+  display: block;
+  width: 40px;
+  height: 50px;
+  cursor: pointer;
+}
+#changeBoardBg i {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  font-size: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+#changeBoardBg.cse-menu-open i {
+  background-color: transparent;
+}
+#changeBoardBg i:before,
+#changeBoardBg i:after {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  content: '';
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+#changeBoardBg i:before {
+  -webkit-transform: translateY(-250%);
+  transform: translateY(-250%);
+}
+#changeBoardBg i:after {
+  -webkit-transform: translateY(250%);
+  transform: translateY(250%);
+}
+#changeBoardBg.cse-menu-open  i:before {
+  -webkit-transform: translateY(0) rotate(45deg);
+  transform: translateY(0) rotate(45deg);
+}
+#changeBoardBg.cse-menu-open  i:after {
+  -webkit-transform: translateY(0) rotate(-45deg);
+  transform: translateY(0) rotate(-45deg);
+}
 
 
 
