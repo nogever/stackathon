@@ -52,3 +52,61 @@ navbar {
   }
 
 }
+.fa.fa-pencil {
+  text-indent: -9999px;
+  display: block;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  cursor: pointer;
+  background-color: black;
+  border-radius: 50%;
+}
+.fa.fa-pencil:hover {
+  background-color: #333;
+}
+.fa.fa-pencil:before {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 2px;
+  background: #fff;
+  position: relative;
+  top: 20px;
+  transform: rotate(90deg);
+}
+.fa.fa-pencil:after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 2px;
+  background: #fff;
+  position: relative;
+  position: relative;
+  top: 20px;
+  transform: rotate(180deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -37,3 +37,96 @@
 		}
 	}
 }
+
+.note-color-options ul,
+.note-color-options li {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+.note-color-options {
+	width: 105px;
+}
+.note-color-options li {
+	display: inline-block;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	margin: 3px;
+}
+.note-color-options .red {
+	border-color: $labelRed;
+}
+.note-color-options .yellow {
+	border-color: $labelYellow;
+}
+.note-color-options .green {
+	border-color: $labelGreen;
+}
+.note-color-options .blue {
+	border-color: $labelBlue;
+}
+.note-color-options .white {
+	border-color: $labelWhite;
+}
+.note-color-options .purple {
+	border-color: $labelPurple;
+}
+.note-color-options .emerald {
+	border-color: $labelEmerald;
+}
+.note-color-options .grey {
+	border-color: $labelGrey;
+}
+.note-color-options .red:hover {
+	border-color: darken($labelRed, 30%) !important;
+}
+.note-color-options .yellow:hover {
+	border-color: darken($labelYellow, 30%) !important;
+}
+.note-color-options .green:hover {
+	border-color: darken($labelGreen, 30%) !important;
+}
+.note-color-options .blue:hover {
+	border-color: darken($labelBlue, 30%) !important;
+}
+.note-color-options .white:hover {
+	border-color: darken($labelWhite, 30%) !important;
+}
+.note-color-options .purple:hover {
+	border-color: darken($labelPurple, 30%) !important;
+}
+.note-color-options .emerald:hover {
+	border-color: darken($labelEmerald, 30%) !important;
+}
+.note-color-options .grey:hover {
+	border-color: darken($labelGrey, 30%) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

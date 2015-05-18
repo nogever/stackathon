@@ -50,6 +50,9 @@ module.exports = function (server) {
         socket.on('downvoteNote', function(data){
             socket.broadcast.to(room).emit('onDownvoteNote', data);
         });
+        socket.on('updateNoteColor', function(data){
+            socket.broadcast.to(room).emit('onUpdateNoteColor', data);
+        });
 
     });
 

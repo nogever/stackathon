@@ -19,7 +19,7 @@ var schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Board'
     },
-    color: String,
+    color: {type: String, default: 'yellow'},
     upvote: Number,
     downvote: Number,
     images: [String],

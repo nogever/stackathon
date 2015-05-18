@@ -1,4 +1,4 @@
-<div class="sticky-note yellow">
+<div class="sticky-note {{note.color}}">
 	<i class="pin"></i>
 	<button type="button" class="close pull-right" ng-click="deleteNote(note._id)">&times;</button>
 	<input ng-model="note.title" ng-change="updateNote(note)" type="text" class="title" >
@@ -11,15 +11,12 @@
 		{{note.upvote}}
 		<i class="fa fa-hand-o-down" ng-click="downvote(note._id)"></i>
 		{{note.downvote}}
-		<i class="fa fa-link"></i>
+		<i class="fa fa-link" popover-template="colorPopover.templateUrl"></i>
 		<i class="fa fa-list-ul"></i>
 	</div>
 </div>
 
 <script type="text/ng-template" id="noteModal.html">
-<pre>
-	{{ note | json }}
-</pre>
 	<div class="modal-header">
 	    <h3 class="modal-title">{{ note.title }}</h3>
 	</div>
@@ -36,3 +33,26 @@
 	    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 	</div>
 </script>
+
+<script type="text/ng-template" id="noteColor.html">
+    <div class="note-color-options">
+		<ul>
+			<li ng-repeat="color in colors" ng-click="selectColor(color)" class="{{color}}"></li>
+		</ul>
+	</div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -137,7 +137,7 @@ app.directive('stickyNote', function(socket, Note) {
 
 		};
 
-	var controller = function($scope, $modal) {
+	var controller = function($scope, $modal, Note) {
 		var note = $scope.note;
 		// Incoming
 		socket.on('onNoteUpdated', function(data) {
@@ -148,7 +148,6 @@ app.directive('stickyNote', function(socket, Note) {
 			}
 		});
 
-		// Outgoing
 		$scope.updateNote = function(note) {
 			socket.emit('updateNote', note);
 				Note.updateOne($scope.note._id, $scope.note).then(function(note) {
@@ -214,6 +213,28 @@ app.directive('stickyNote', function(socket, Note) {
 				console.log('bye modal');
 			});
 		};
+
+		$scope.colors = ['red', 'yellow', 'green', 'blue', 'white', 'purple', 'emerald', 'grey'];
+
+		$scope.colorPopover = {
+		    templateUrl: 'noteColor.html'
+	  };
+
+	  $scope.selectColor = function(color) {
+	  	Note.updateOne($scope.note._id, {color: color})
+	  		.then(function(note) {
+	  			$scope.note.color = note.color;
+	  			socket.emit('updateNoteColor', note.color);
+	  		})
+	  		.catch(function(err) {
+	  			console.log(err);
+	  		});
+	  };
+
+	  socket.on('onUpdateNoteColor', function(data) {
+	  	$scope.note.color = data;
+	  });
+
 	};
 
 	return {
@@ -387,7 +408,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket) {
 	$scope.note = note;
-	console.log('note modal instance ctrl ', note);
+	// console.log('note modal instance ctrl ', note);
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};
