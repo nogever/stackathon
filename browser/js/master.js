@@ -182,7 +182,7 @@ app.directive('stickyNote', function(socket, Note) {
 				socket.emit('downvoteNote', note.downvote);
 			})
 			.catch(function(err) {
-				console.log('upvote errorrrrrr ', err);
+				console.log('downvote errorrrrrr ', err);
 			});
 		};
 
@@ -263,7 +263,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	$scope.$parent.$broadcast('boardCreated');
 
 	// keep the latest background
-	angular.element('body').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
+	angular.element('#board').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
 
 	// Incoming
 	socket.on('onNoteCreated', function(data) {
@@ -366,7 +366,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	];
 
 	$scope.switchBg = function(imagePath) {
-		angular.element('body').css('background-image', 'url(' + imagePath + ')');
+		angular.element('#board').css('background-image', 'url(' + imagePath + ')');
 		Board.updateOne($scope.currentBoard._id, imagePath)
 			 .then(function(board) {
 			 	socket.emit('changeBoardBg', board);
@@ -376,7 +376,11 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	};
 
 	socket.on('onChangeBoardBg', function(data) {
-		angular.element('body').css('background-image', 'url(' + data.backgroundImg + ')');
+		// Update if the same board
+		// if(data._id === $scope.board._id) {
+			// console.log('change board background socket incoming', data._id, $scope.board._id);
+			angular.element('#board').css('background-image', 'url(' + data.backgroundImg + ')');
+		// }
 	});
 });
 
