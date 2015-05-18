@@ -397,7 +397,7 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note,
 		filepicker.pick(
 			{
 				mimetype: ["image/*", 'text/plain'],
-				container: 'window',
+				container: 'modal',
 				services: ['COMPUTER', 'URL', 'GMAIL']
 			},
 
