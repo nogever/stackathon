@@ -3,10 +3,9 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
 
     return {
         restrict: 'E',
-        scope: {},
+        scope: {showBoardForm:'@'},
         templateUrl: 'js/common/directives/navbar/navbar.html',
         link: function (scope) {
-
             scope.items = [
                 // { label: 'Home', state: 'home' },
                 // { label: 'About', state: 'about' },
@@ -42,8 +41,25 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
             $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
 
+        },
+        controller: function($scope) {
+            $scope.$on('boardCreated', function(event, args) {
+                $scope.showBoardForm = true;
+            })
         }
 
     };
 
 });
+
+
+
+
+
+
+
+
+
+
+
+

@@ -244,7 +244,8 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	$scope.notes = allNotes;
 	socket.emit('joinRoom', $scope.board);
 	$scope.$emit('boardInfo', $scope.board);
-	$scope.$parent.showBoardForm = false;
+	$scope.$parent.showBoardForm = true;
+	$scope.$parent.$broadcast('boardCreated');
 
 	// keep the latest background
 	angular.element('body').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
@@ -321,8 +322,8 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 
 app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {
 
-	$scope.showBoardForm = true;
-
+	$scope.showBoardForm = false;
+	$scope.boardtitle = 'this is board title';
 	$scope.$on('boardInfo', function(event, data) {
 		$scope.currentBoard = data;
 	})
@@ -331,7 +332,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 		Board.create($scope.board.name).then(function(board) {
 			$state.go('board', {id: board._id});
 			$scope.currentBoard = board;
-			console.log('showBoardForm', $scope.showBoardForm);
+			$scope.showBoardForm = true;
 			// socket.emit('newBoard', board);
 		}).catch(function(err){
 			console.log(err);
@@ -339,7 +340,6 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	};
 
 	$scope.offCanvas = function() {
-		console.log('off canvas');
 		angular.element('html').toggleClass('off-canvas-on');
 		angular.element('.off-canvas').toggleClass('off-canvas-in')
 	}
@@ -351,11 +351,9 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	];
 
 	$scope.switchBg = function(imagePath) {
-		console.log('board ctrl', $scope);
 		angular.element('body').css('background-image', 'url(' + imagePath + ')');
 		Board.updateOne($scope.currentBoard._id, imagePath)
 			 .then(function(board) {
-			 	console.log('board with new background ', board);
 			 	socket.emit('changeBoardBg', board);
 			 }).catch(function(err) {
 			 	console.log(err);
