@@ -224,7 +224,7 @@ app.directive('stickyNote', function(socket, Note) {
 	  	Note.updateOne($scope.note._id, {color: color})
 	  		.then(function(note) {
 	  			$scope.note.color = note.color;
-	  			socket.emit('updateNoteColor', note.color);
+	  			socket.emit('updateNoteColor', note);
 	  		})
 	  		.catch(function(err) {
 	  			console.log(err);
@@ -232,7 +232,9 @@ app.directive('stickyNote', function(socket, Note) {
 	  };
 
 	  socket.on('onUpdateNoteColor', function(data) {
-	  	$scope.note.color = data;
+	  	if ($scope.note._id === data._id) {
+		  	$scope.note.color = data;
+	  	}
 	  });
 
 	};
