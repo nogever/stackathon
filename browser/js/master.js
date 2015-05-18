@@ -260,7 +260,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	socket.emit('joinRoom', $scope.board);
 	$scope.$emit('boardInfo', $scope.board);
 	$scope.$parent.showBoardForm = true;
-	// $scope.$parent.$broadcast('boardCreated');
+	$scope.$parent.$broadcast('boardCreated');
 
 	// keep the latest background
 	angular.element('#board').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
@@ -348,6 +348,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 			$state.go('board', {id: board._id});
 			$scope.currentBoard = board;
 			$scope.showBoardForm = true;
+			// angular.element('#board').css('background-image', 'url(/images/healthy.jpg)');
 			// socket.emit('newBoard', board);
 		}).catch(function(err){
 			console.log(err);
@@ -418,8 +419,8 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note,
 
 			},
 
-			function(err) {
-				console.log('filepicker error ', err.toString());
+			function(error) {
+				console.log('filepicker error ', error.toString());
 			}
 		);
 	};

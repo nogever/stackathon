@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     name: String,
-    backgroundImg: String
+    backgroundImg: {type: String, default: '/images/healthy.jpg'}
     // ,
     // notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}]
 });
