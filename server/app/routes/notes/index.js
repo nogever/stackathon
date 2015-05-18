@@ -45,6 +45,14 @@ router.put('/downvote/:id', function (req, res, next) {
 	});
 });
 
+router.put('/images/:id', function (req, res, next) {
+	var imgUrl = req.body.image;
+	Note.findByIdAndUpdate(req.params.id, { $push: { images: imgUrl }}, function(err, note) {
+		if (err) return next(err);
+		res.json(note);
+	});
+});
+
 router.delete('/:noteId', function (req, res, next) {
 	Note.findByIdAndRemove(req.params.noteId, function(err, doc) {
 		if(err) return next(err);
