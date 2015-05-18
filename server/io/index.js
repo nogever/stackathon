@@ -43,6 +43,13 @@ module.exports = function (server) {
             socket.broadcast.to(room).emit('onChangeBoardBg', data);
         });
 
+        socket.on('upvoteNote', function(data){
+            socket.broadcast.to(room).emit('onUpvoteNote', data);
+        });
+
+        socket.on('downvoteNote', function(data){
+            socket.broadcast.to(room).emit('onDownvoteNote', data);
+        });
 
     });
 

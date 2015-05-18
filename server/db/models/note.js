@@ -22,9 +22,9 @@ var schema = new mongoose.Schema({
     color: String,
     upvote: Number,
     downvote: Number,
-    image: [String],
+    images: [String],
     video: [String],
-    Audio: [String],
+    Audio: [String]
     // comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 });
 

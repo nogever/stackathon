@@ -17,14 +17,22 @@
 </div>
 
 <script type="text/ng-template" id="noteModal.html">
+<pre>
+	{{ note | json }}
+</pre>
 	<div class="modal-header">
 	    <h3 class="modal-title">{{ note.title }}</h3>
 	</div>
 	<div class="modal-body">
 		{{ note.body }}
+		<h3>Image</h3>
+		<img class="note-modal-img" ng-repeat='image in note.images' ng-src='{{image}}'>
+
+		// <img class="note-modal-img" src = "{{note.image}}" />
 	</div>
 	</div>
 	<div class="modal-footer">
+		<button class="btn btn-default pull-left" ng-click="addMedia()">Add Media</button>
 	    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 	</div>
 </script>
