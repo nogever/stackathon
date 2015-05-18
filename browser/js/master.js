@@ -163,6 +163,7 @@ app.directive('stickyNote', function(socket, Note) {
 			Note.upvote($scope.note._id)
 			.then(function(note){
 				$scope.note = note;
+				socket.emit('upvoteNote', note.upvote);
 			})
 			.catch(function(err) {
 				console.log('upvote errorrrrrr ', err);
@@ -173,11 +174,20 @@ app.directive('stickyNote', function(socket, Note) {
 			Note.downvote($scope.note._id)
 			.then(function(note){
 				$scope.note = note;
+				socket.emit('downvoteNote', note.downvote);
 			})
 			.catch(function(err) {
 				console.log('upvote errorrrrrr ', err);
 			});
 		};
+
+		socket.on('onUpvoteNote', function(data) {
+			$scope.note.upvote = data;
+		});
+
+		socket.on('onDownvoteNote', function(data) {
+			$scope.note.downvote = data;
+		});
 
 		$scope.animationsEnabled = true;
 
@@ -363,11 +373,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	};
 
 	socket.on('onChangeBoardBg', function(data) {
-		// Update if the same board
-		// if(data._id === $scope.board._id) {
-			// console.log('change board background socket incoming', data._id, $scope.board._id);
-			angular.element('body').css('background-image', 'url(' + data.backgroundImg + ')');
-		// }
+		angular.element('body').css('background-image', 'url(' + data.backgroundImg + ')');
 	});
 });
 
