@@ -80,6 +80,11 @@ app.factory('Note', function($http, $state) {
 			return $http.put('api/notes/downvote/' + id).then(function(response) {
 				return response.data;
 			});
+		},
+		uploadImage: function(id, imgUrl) {
+			return $http.put('api/notes/images/' + id, imgUrl).then(function(response) {
+				return response.data;
+			});
 		}
 	};
 });
@@ -371,11 +376,46 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	});
 });
 
-app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note) {
+app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket) {
 	$scope.note = note;
+	console.log('note modal instance ctrl ', note);
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};
+	// add filepicker API
+	filepicker.setKey("AYlHStA5UQh6tbkyxrBNfz");
+	$scope.addMedia = function() {
+		filepicker.pick(
+			{
+				mimetype: ["image/*", 'text/plain'],
+				container: 'window',
+				services: ['COMPUTER', 'URL', 'GMAIL']
+			},
+
+  			function(data){
+  				console.log('uploaded media ', data.url);
+  				// add media to database
+				Note.uploadImage(
+					$scope.note._id, 
+					{ image: data.url }
+				)
+				.then(function(note){
+					console.log('note with new pic ', note);
+					$scope.note = note;
+					socket.emit('updateNote', note);
+				})
+				.catch(function(err) {
+					console.log('new image upload error ', err);
+				});
+
+			},
+
+			function(error) {
+				console.log('filepicker error ', err.toString());
+			}
+		)
+	};
+
 });
 
 app.controller('BoardModalInstanceCtrl', function($scope, $modalInstance, board) {
