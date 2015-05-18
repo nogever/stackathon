@@ -245,7 +245,9 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	socket.emit('joinRoom', $scope.board);
 	$scope.$emit('boardInfo', $scope.board);
 	$scope.$parent.showBoardForm = false;
-	console.log('parent showBoardForm ', $scope.$parent.showBoardForm, $scope.$parent);
+
+	// keep the latest background
+	angular.element('body').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
 
 	// Incoming
 	socket.on('onNoteCreated', function(data) {
