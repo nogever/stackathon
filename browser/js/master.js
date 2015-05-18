@@ -340,7 +340,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	socket.on('onChangeBoardBg', function(data) {
 		// Update if the same board
 		// if(data._id === $scope.board._id) {
-			console.log('change board background socket incoming', data._id, $scope.board._id);
+			// console.log('change board background socket incoming', data._id, $scope.board._id);
 			angular.element('body').css('background-image', 'url(' + data.backgroundImg + ')');
 		// }
 	});
