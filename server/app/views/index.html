@@ -26,7 +26,7 @@
         </ul>
     </nav> -->
     <navbar></navbar>
-    <form id="createBoard" name="newBoardForm" class="form-inline ls-form" ng-show="{{showBoardForm}}" ng-submit="" novalidate>
+    <form id="createBoard" name="newBoardForm" class="form-inline ls-form" ng-show="showBoardForm" ng-submit="" novalidate>
         <div class="form-group form-group-lg">
         <label for="boardName" class="sr-only">Name</label>
         <input ng-model="board.name" ng-change="board.name" type="text" class="form-control" id="boardName" placeholder="Enter board name..." required>
@@ -35,7 +35,7 @@
         <!-- <button type="submit" id="replace-board" class="btn btn-danger" ng-disabled="newBoardForm.$invalid" ng-click="replaceBoard({id: board.name})">Create</button> -->
     </form>
 
-    <div ui-view style="margin-top:-70px;"></div>
+    <div ui-view style="width: 100vw;height: 100vh;position:relative;margin-top:-70px;"></div>
 
 </body>
 </html>
