@@ -1,10 +1,13 @@
 .ls-form {
 	.btn {
-	  padding: 3px 6px;
+	  padding: 10px 15px;
 	  background-color: rgba(255,255,255,0.6);
 	  border: 1px solid rgba(255,255,255,1);
-	  border-radius: 20px;
-	  color: #444;
+	  border-radius: 0;
+	  font-size: 18px;
+	  font-weight: 300;
+	  color: #000;
+
 	  &:hover {
 	  	background-color: rgba(255,255,255,1);
 	  	color: #000;
@@ -20,10 +23,13 @@
 			background-color: rgba(255,255,255,.4);
 		}
 	}
-	.form-group-sm {
+	.form-group-lg {
 		.form-control {
 			border-radius: 0;
 			border-color: rgba(255,255,255,0.7);
+			width:300px;
+			color: #000;
+			font-weight: 300;
 			&:focus {
 				border-color: rgba(255,255,255,1);
 				box-shadow: none;

@@ -239,11 +239,13 @@ app.factory('socket', function($rootScope) {
 
 });
 
-app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNotes, currentBoard, $stateParams) {
+app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket, allNotes, currentBoard, $stateParams) {
 	$scope.board = currentBoard;
 	$scope.notes = allNotes;
 	socket.emit('joinRoom', $scope.board);
 	$scope.$emit('boardInfo', $scope.board);
+	$scope.$parent.showBoardForm = false;
+	console.log('parent showBoardForm ', $scope.$parent.showBoardForm, $scope.$parent);
 
 	// Incoming
 	socket.on('onNoteCreated', function(data) {
@@ -282,7 +284,6 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	$scope.deleteNote = function(id) {
 		$scope.handleDeletedNoted(id);
 		socket.emit('deleteNote', {id: id});
-		// console.log('deleteNote in coltroller', id);
 	};
 
 	$scope.handleDeletedNoted = function(id) {
@@ -300,23 +301,25 @@ app.controller('BoardCtrl', function($scope, Board, Note, $state, socket, allNot
 	    });
 	};
 
-});
-
-app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {
-
-	$scope.$on('boardInfo', function(event, data) {
-		$scope.currentBoard = data;
-	})
-
-	$scope.createBoard = function() {
-		Board.create($scope.board.name).then(function(board) {
-			$state.go('board', {id: board._id});
-			$scope.currentBoard = board;
-			// socket.emit('newBoard', board);
-		}).catch(function(err){
-			console.log(err);
+	$scope.shareBoardModal = function(size) {
+		var modalInstance = $modal.open({
+			animation: $scope.animationsEnabled,
+			templateUrl: 'boardModal.html',
+			controller: 'BoardModalInstanceCtrl',
+			size: size,
+			resolve: {
+				board: function() {
+					return $scope.board;
+				}
+			}
 		});
 	};
+
+	$scope.offCanvas = function() {
+		console.log('off canvas');
+		angular.element('html').toggleClass('off-canvas-on');
+		angular.element('.off-canvas').toggleClass('off-canvas-in')
+	}
 
 	$scope.images = [
 		'/images/healthy.jpg',
@@ -324,9 +327,8 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 		'/images/rain.jpg'
 	];
 
-
 	$scope.switchBg = function(imagePath) {
-		console.log('master ctrl', $scope);
+		console.log('board ctrl', $scope);
 		angular.element('body').css('background-image', 'url(' + imagePath + ')');
 		Board.updateOne($scope.currentBoard._id, imagePath)
 			 .then(function(board) {
@@ -336,6 +338,46 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 			 	console.log(err);
 			 })
 	};
+
+});
+
+app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {
+
+	$scope.showBoardForm = true;
+
+	$scope.$on('boardInfo', function(event, data) {
+		$scope.currentBoard = data;
+	})
+
+	$scope.createBoard = function() {
+		Board.create($scope.board.name).then(function(board) {
+			$state.go('board', {id: board._id});
+			$scope.currentBoard = board;
+			console.log('showBoardForm', $scope.showBoardForm);
+			// socket.emit('newBoard', board);
+		}).catch(function(err){
+			console.log(err);
+		});
+	};
+
+	// $scope.images = [
+	// 	'/images/healthy.jpg',
+	// 	'/images/city.jpg',
+	// 	'/images/rain.jpg'
+	// ];
+
+
+	// $scope.switchBg = function(imagePath) {
+	// 	console.log('master ctrl', $scope);
+	// 	angular.element('body').css('background-image', 'url(' + imagePath + ')');
+	// 	Board.updateOne($scope.currentBoard._id, imagePath)
+	// 		 .then(function(board) {
+	// 		 	console.log('board with new background ', board);
+	// 		 	socket.emit('changeBoardBg', board);
+	// 		 }).catch(function(err) {
+	// 		 	console.log(err);
+	// 		 })
+	// };
 
 	socket.on('onChangeBoardBg', function(data) {
 		// Update if the same board
@@ -349,12 +391,16 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note) {
 	$scope.note = note;
-	// $scope.ok = function() {
-	// 	$modalInstance.close($scope.selected.item);
-	// };
-	// $scope.cancel = function() {
-	// 	$modalInstance.dismiss('cancel');
-	// };
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+});
+
+app.controller('BoardModalInstanceCtrl', function($scope, $modalInstance, board) {
+	$scope.board = board;
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
 });
 
 

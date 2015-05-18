@@ -4,10 +4,10 @@ app.directive('fullstackLogo', function() {
 
 	var controller = function($scope, $element) {
 
-		$scope.offCanvas = function() {
-			angular.element('html').toggleClass('off-canvas-on');
-			angular.element('.off-canvas').toggleClass('off-canvas-in')
-		}
+		// $scope.offCanvas = function() {
+		// 	angular.element('html').toggleClass('off-canvas-on');
+		// 	angular.element('.off-canvas').toggleClass('off-canvas-in')
+		// }
 
 	};
 

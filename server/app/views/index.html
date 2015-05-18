@@ -17,17 +17,17 @@
     <script src="/jquery-ui/jquery-ui.js"></script>
 </head>
 <body ng-controller="MasterCtrl">
-    <nav class="off-canvas">
+    <!-- <nav class="off-canvas">
         <h4>BACKGROUND</h4>
         <ul class="bgs">
             <li ng-repeat="image in images" ng-click="switchBg(image)">
                 <img src="{{ image }}">
             </li>
         </ul>
-    </nav>
+    </nav> -->
     <navbar></navbar>
-    <form id="createBoard" name="newBoardForm" class="form-inline ls-form" ng-submit="" novalidate>
-        <div class="form-group form-group-sm">
+    <form id="createBoard" name="newBoardForm" class="form-inline ls-form" ng-show="{{showBoardForm}}" ng-submit="" novalidate>
+        <div class="form-group form-group-lg">
         <label for="boardName" class="sr-only">Name</label>
         <input ng-model="board.name" ng-change="board.name" type="text" class="form-control" id="boardName" placeholder="Enter board name..." required>
         </div>
