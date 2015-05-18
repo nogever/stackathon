@@ -317,6 +317,27 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 		});
 	};
 
+});
+
+app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {
+
+	$scope.showBoardForm = true;
+
+	$scope.$on('boardInfo', function(event, data) {
+		$scope.currentBoard = data;
+	})
+
+	$scope.createBoard = function() {
+		Board.create($scope.board.name).then(function(board) {
+			$state.go('board', {id: board._id});
+			$scope.currentBoard = board;
+			console.log('showBoardForm', $scope.showBoardForm);
+			// socket.emit('newBoard', board);
+		}).catch(function(err){
+			console.log(err);
+		});
+	};
+
 	$scope.offCanvas = function() {
 		console.log('off canvas');
 		angular.element('html').toggleClass('off-canvas-on');
@@ -341,46 +362,6 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 			 })
 	};
 
-});
-
-app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParams) {
-
-	$scope.showBoardForm = true;
-
-	$scope.$on('boardInfo', function(event, data) {
-		$scope.currentBoard = data;
-	})
-
-	$scope.createBoard = function() {
-		Board.create($scope.board.name).then(function(board) {
-			$state.go('board', {id: board._id});
-			$scope.currentBoard = board;
-			console.log('showBoardForm', $scope.showBoardForm);
-			// socket.emit('newBoard', board);
-		}).catch(function(err){
-			console.log(err);
-		});
-	};
-
-	// $scope.images = [
-	// 	'/images/healthy.jpg',
-	// 	'/images/city.jpg',
-	// 	'/images/rain.jpg'
-	// ];
-
-
-	// $scope.switchBg = function(imagePath) {
-	// 	console.log('master ctrl', $scope);
-	// 	angular.element('body').css('background-image', 'url(' + imagePath + ')');
-	// 	Board.updateOne($scope.currentBoard._id, imagePath)
-	// 		 .then(function(board) {
-	// 		 	console.log('board with new background ', board);
-	// 		 	socket.emit('changeBoardBg', board);
-	// 		 }).catch(function(err) {
-	// 		 	console.log(err);
-	// 		 })
-	// };
-
 	socket.on('onChangeBoardBg', function(data) {
 		// Update if the same board
 		// if(data._id === $scope.board._id) {
@@ -388,7 +369,6 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 			angular.element('body').css('background-image', 'url(' + data.backgroundImg + ')');
 		// }
 	});
-
 });
 
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note) {
