@@ -260,7 +260,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	socket.emit('joinRoom', $scope.board);
 	$scope.$emit('boardInfo', $scope.board);
 	$scope.$parent.showBoardForm = true;
-	$scope.$parent.$broadcast('boardCreated');
+	// $scope.$parent.$broadcast('boardCreated');
 
 	// keep the latest background
 	angular.element('#board').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
@@ -309,7 +309,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 		Note.deleteOne(id)
 		// .then(Board.getNotes.bind(Board, $stateParams.id))
 		.then(function(note) {
-			return Board.getNotes($stateParams.id)
+			return Board.getNotes($stateParams.id);
 		})
 		.then(function(notes) {
 			$scope.notes = notes;
@@ -341,7 +341,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	$scope.boardtitle = 'this is board title';
 	$scope.$on('boardInfo', function(event, data) {
 		$scope.currentBoard = data;
-	})
+	});
 
 	$scope.createBoard = function() {
 		Board.create($scope.board.name).then(function(board) {
@@ -356,8 +356,8 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 
 	$scope.offCanvas = function() {
 		angular.element('html').toggleClass('off-canvas-on');
-		angular.element('.off-canvas').toggleClass('off-canvas-in')
-	}
+		angular.element('.off-canvas').toggleClass('off-canvas-in');
+	};
 
 	$scope.images = [
 		'/images/healthy.jpg',
@@ -372,7 +372,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 			 	socket.emit('changeBoardBg', board);
 			 }).catch(function(err) {
 			 	console.log(err);
-			 })
+			 });
 	};
 
 	socket.on('onChangeBoardBg', function(data) {
@@ -418,10 +418,10 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note,
 
 			},
 
-			function(error) {
+			function(err) {
 				console.log('filepicker error ', err.toString());
 			}
-		)
+		);
 	};
 
 });

@@ -45,7 +45,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         controller: function($scope) {
             $scope.$on('boardCreated', function(event, args) {
                 $scope.showBoardForm = true;
-            })
+            });
         }
 
     };
