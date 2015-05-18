@@ -384,7 +384,8 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	$scope.images = [
 		'/images/healthy.jpg',
 		'/images/city.jpg',
-		'/images/rain.jpg'
+		'/images/rain.jpg',
+		'/images/home.jpg'
 	];
 
 	$scope.switchBg = function(imagePath) {

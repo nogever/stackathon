@@ -37,7 +37,7 @@
         <!-- <button type="submit" id="replace-board" class="btn btn-danger" ng-disabled="newBoardForm.$invalid" ng-click="replaceBoard({id: board.name})">Create</button> -->
     </form>
 
-    <div ui-view style="width:100vw;height:100vh;position:relative;margin-top:-71px;" ng-style="{'background-image':'url({{currentBoard.backgroundImg}})'}" id="board"></div>
+    <div ui-view style="width:100vw;height:100vh;position:relative;margin-top:-71px; background-image:url({{currentBoard.backgroundImg}});" id="board"></div>
 
 </body>
 </html>
