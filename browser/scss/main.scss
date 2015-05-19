@@ -68,6 +68,41 @@ html {
 	}
 }
 
+.off-canvas-grid-on {
+	margin-bottom: 200px;
+	transition: margin-bottom 0.3s;
+}
+
+.off-canvas-grid {
+	position: absolute;
+	bottom: -210px;
+	width: 100vw;
+	height: 210px;
+	padding: 0 20px;
+	background: #333;
+	text-align: center;
+	transition: bottom 0.3s;
+	h4 {
+  		font-weight: 300;
+	}
+	& img {
+		width: 200px;
+		margin: 0 6px;
+	} 
+	&.off-canvas-grid-in {
+		bottom: 0;
+		color: #ddd;
+		transition: bottom 0.3s;
+	}
+	ul, li {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		display: inline-block;
+		float: left;
+	}
+}
+
 
 
 

@@ -39,5 +39,14 @@
 
     <div ui-view style="width:100vw;height:100vh;position:relative;margin-top:-71px; background-image:url({{currentBoard.backgroundImg}});" id="board"></div>
 
+    <nav class="off-canvas-grid">
+        <h4>SELECT GRID</h4>
+        <ul class="">
+            <li ng-repeat="image in images" ng-click="switchBg(image)">
+                <img src="{{ image }}">
+            </li>
+        </ul>
+    </nav>
+
 </body>
 </html>
