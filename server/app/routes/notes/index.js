@@ -18,6 +18,17 @@ router.get('/:id', function (req, res, next) {
 	});
 });
 
+router.get('/:id/comments', function(req, res, next) {
+	Note.findById(req.params.id, function(err, note) {
+		if(err) return next(err);
+		note.getComments().then(function(comments) {
+			res.send(comments);
+		}).catch(function(err) {
+			console.log(err);
+		});
+	});
+});
+
 router.post('/', function (req, res, next) {
 	Note.create(req.body, function(err, note) {
 		res.json(note);

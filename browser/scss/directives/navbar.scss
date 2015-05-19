@@ -57,45 +57,33 @@ navbar {
   display: block;
   width: 40px;
   height: 40px;
-  background: transparent;
   cursor: pointer;
-  background-color: black;
+  background-color: #ecd82d;
   border-radius: 50%;
+  position: relative;
 }
 .fa.fa-pencil:hover {
   background-color: #333;
 }
-.fa.fa-pencil:before {
-  content: "";
-  display: block;
-  width: 36px;
-  height: 2px;
-  background: #fff;
-  position: relative;
-  top: 20px;
-  transform: rotate(90deg);
-}
+.fa.fa-pencil:before,
 .fa.fa-pencil:after {
   content: "";
   display: block;
-  width: 36px;
+  width: 22px;
   height: 2px;
   background: #fff;
-  position: relative;
-  position: relative;
-  top: 20px;
-  transform: rotate(180deg);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: -1px auto 0;
 }
-
-
-
-
-
-
-
-
-
-
+.fa.fa-pencil:before {
+  transform: rotate(90deg);
+}
+.fa.fa-pencil:after {
+  transform: rotate(0deg);
+}
 
 
 
