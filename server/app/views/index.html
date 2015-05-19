@@ -20,11 +20,20 @@
 </head>
 <body ng-controller="MasterCtrl">
     <nav class="off-canvas">
-        <h4>BACKGROUND</h4>
-        <ul class="bgs">
+        <div class="off-canvas-menu"><a href="https://afternoon-dawn-4586.herokuapp.com">HOME</a></div>
+        <div class="off-canvas-menu" ng-click="isBgCollapsed = !isBgCollapsed">BACKGROUND
+        </div>
+        <ul class="bgs" collapse="isBgCollapsed">
             <li ng-repeat="image in images" ng-click="switchBg(image)">
                 <img src="{{ image }}">
             </li>
+        </ul>
+        <div class="off-canvas-menu" ng-click="isGridCollapsed = !isGridCollapsed">GRID</div>
+        <ul class="grids" collapse="isGridCollapsed">
+            <li ng-repeat="grid in grids" ng-click="switchGrid(grid)">
+                <h4>{{ grid }}</h4>
+            </li>
+            <li class="remove-grid" ng-click="removeGrid(board.grid)"><h4>Remove Grid</h4></li>
         </ul>
     </nav>
     <navbar></navbar>
@@ -38,6 +47,20 @@
     </form>
 
     <div ui-view style="width:100vw;height:100vh;position:relative;margin-top:-71px; background-image:url({{currentBoard.backgroundImg}});" id="board"></div>
+
+    <div class="grid-overlay-none"></div>
+
+    <div class="grid-overlay-modular"></div>
+
+    <div class="grid-overlay-column">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
 
 </body>
 </html>

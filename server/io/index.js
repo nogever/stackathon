@@ -42,6 +42,14 @@ module.exports = function (server) {
         socket.on('changeBoardBg', function(data){
             socket.broadcast.to(room).emit('onChangeBoardBg', data);
         });
+        
+        socket.on('changeBoardGrid', function(data){
+            socket.broadcast.to(room).emit('onChangeBoardGrid', data);
+        });
+        
+        socket.on('removeBoardGrid', function(data){
+            socket.broadcast.to(room).emit('onRemoveBoardGrid', data);
+        });
 
         socket.on('upvoteNote', function(data){
             socket.broadcast.to(room).emit('onUpvoteNote', data);
@@ -50,6 +58,7 @@ module.exports = function (server) {
         socket.on('downvoteNote', function(data){
             socket.broadcast.to(room).emit('onDownvoteNote', data);
         });
+        
         socket.on('updateNoteColor', function(data){
             socket.broadcast.to(room).emit('onUpdateNoteColor', data);
         });
