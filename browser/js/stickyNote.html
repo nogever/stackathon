@@ -12,7 +12,6 @@
 		<i class="fa fa-hand-o-down" ng-click="downvote(note._id)"></i>
 		{{note.downvote}}
 		<i class="fa fa-link" popover-template="colorPopover.templateUrl"></i>
-		<i class="fa fa-list-ul"></i>
 	</div>
 </div>
 
@@ -21,25 +20,29 @@
 	    <h3 class="modal-title">{{ note.title }}</h3>
 	</div>
 	<div class="modal-body">
-		{{ note.body }}
-		<h3>Image</h3>
-		<img class="note-modal-img" ng-repeat='image in note.images' ng-src='{{image}}'>
+		<div class="note-body">
+			{{ note.body }}
+		</div>
+		<div class="note-image">
+			<img class="note-modal-img" ng-repeat='image in note.images' ng-src='{{image}}'>
+		</div>
+		<div class="note-comments">
+			<div ng-repeat="comment in comments">{{ comment.content }}</div>
+		</div>
 	</div>
 	</div>
 	<div class="modal-footer">
+		<form name="newComment" ng-submit="newComment.$valid && addComment()" novalidate>
+			<div class="form-group">
+			<label for="commentBody" class="sr-only">Name</label>
+			<textarea ng-model="newComment.content" class="form-control" rows="2" id="commentBody" placeholder="Enter comment here..." required></textarea>
+			</div>
+			<button id="add-new-comment" class="btn btn-default" ng-disabled="newComment.$invalid">Add Comment</button>
+	  	</form>
+
 		<button class="btn btn-default pull-left" ng-click="addMedia()">Add Media</button>
 	  <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 	</div>
-	<div>
-		<div ng-repeat="comment in comments">{{ comment.content }}</div>
-	</div>
-		<form name="newComment" ng-submit="newComment.$valid && addComment()" novalidate>
-		  <div class="form-group">
-		    <label for="commentBody" class="sr-only">Name</label>
-		    <textarea ng-model="newComment.content" class="form-control" rows="2" id="commentBody" placeholder="Enter comment here..." required></textarea>
-		  </div>
-		  <button id="add-new-comment" class="btn btn-default" ng-disabled="newComment.$invalid">Add Comment</button>
-	  </form>
 
 </script>
 
