@@ -405,6 +405,12 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 		angular.element('#changeBoardBg').toggleClass('cse-menu-open');
 	};
 
+	$scope.offCanvasGrid = function() {
+		angular.element('html').toggleClass('off-canvas-grid-on');
+		angular.element('.off-canvas-grid').toggleClass('off-canvas-grid-in');
+		// angular.element('#changeBoardBg').toggleClass('cse-menu-open');
+	};
+
 	$scope.images = [
 		'/images/healthy.jpg',
 		'/images/city.jpg',

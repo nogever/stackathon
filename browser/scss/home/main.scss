@@ -166,15 +166,15 @@ i.fa.fa-bars {
 
 #shareBoard {
 	position: absolute;
-	top: 8px;
+	top: 0px;
 	right: 20px;
-	font-size: 30px;
+	font-size: 50px;
 	z-index:1001;
-	color: #fff;
+	color: #000;
 	cursor: pointer;
 }
 #shareBoard:hover {
-	color: #eee;
+	color: #ffff00;
 }
 
 .board-name {

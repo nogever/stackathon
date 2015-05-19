@@ -53,37 +53,42 @@ navbar {
 
 }
 .fa.fa-pencil {
-  text-indent: -9999px;
+  position: fixed;
+  top:8px;
+  right: 90px;
+  font-size: 0px;
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
+  background: transparent;
   cursor: pointer;
-  background-color: #ecd82d;
   border-radius: 50%;
-  position: relative;
 }
 .fa.fa-pencil:hover {
-  background-color: #333;
+  background-color: #ffff00;
 }
+.fa.fa-pencil:hover:before,
+.fa.fa-pencil:hover:after {
+  background: #333;
+}
+
 .fa.fa-pencil:before,
 .fa.fa-pencil:after {
-  content: "";
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: #fff;
   position: absolute;
   top: 50%;
-  left: 0;
-  right: 0;
-  margin: -1px auto 0;
-}
-.fa.fa-pencil:before {
-  transform: rotate(90deg);
+  left: 50%;
+  width: 2px;
+  height: 40px;
+  background: #fff;
+  content: '';
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 .fa.fa-pencil:after {
-  transform: rotate(0deg);
+  -webkit-transform: translateX(-50%) translateY(-50%) rotate(90deg);
+  transform: translateX(-50%) translateY(-50%) rotate(90deg);
 }
+
 
 
 
