@@ -253,20 +253,22 @@ app.directive('stickyNote', function(socket, Note) {
 	  	}
 	  });
 
-	  $scope.comments = [];
+	  // $scope.comments = [];
 
-	  $scope.newComment = {
-	  	noteId: $scope.note._id,
-	  	content: ""
-	  };
+	  // $scope.newComment = {
+	  // 	noteId: $scope.note._id,
+	  // 	content: ""
+	  // };
 	  
-	  $scope.addComment = function() {
-	  	Note.addComment($scope.newComment).then(function(comment) {
-	  		$scope.comments.push(comment);
-	  	}).catch(function(err) {
-	  		console.log(err);
-	  	});
-	  };
+	  // $scope.addComment = function() {
+	  // 	console.log('adding comment!!');
+	  // 	Note.addComment($scope.newComment).then(function(comment) {
+	  // 		console.log('new comment!!! ', comment);
+	  // 		$scope.comments.push(comment);
+	  // 	}).catch(function(err) {
+	  // 		console.log(err);
+	  // 	});
+	  // };
 
 	};
 
@@ -501,6 +503,26 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket) {
 	$scope.note = note;
+
+	// test
+	$scope.comments = [];
+
+	$scope.newComment = {
+	  	noteId: $scope.note._id,
+	  	content: ""
+	};
+	  
+	$scope.addComment = function() {
+	  	console.log('adding comment!!');
+	  	Note.addComment($scope.newComment).then(function(comment) {
+	  		console.log('new comment!!! ', comment);
+	  		$scope.comments.push(comment);
+	  	}).catch(function(err) {
+	  		console.log(err);
+	  	});
+	};
+	// end test
+
 
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
