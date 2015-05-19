@@ -35,8 +35,14 @@ $labelGrey: #ddd;
 @import 'form';
 
 
+html {
+	margin-left: 0;
+	transition: margin-left 0.3s;
+}
+
 .off-canvas-on {
 	margin-left: 210px;
+	transition: margin-left 0.3s;
 }
 .off-canvas {
 	position: absolute;
@@ -45,6 +51,7 @@ $labelGrey: #ddd;
 	width: 210px;
 	background: #333333;
 	text-align: center;
+	transition: left 0.3s;
 	& img {
 		max-width: 90%;
 		margin: 6px 0;
@@ -52,6 +59,7 @@ $labelGrey: #ddd;
 	&.off-canvas-in {
 		left: 0;
 		color: #ddd;
+		transition: left 0.3s;
 	}
 	ul, li {
 		list-style-type: none;
