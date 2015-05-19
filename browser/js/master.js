@@ -249,7 +249,7 @@ app.directive('stickyNote', function(socket, Note) {
 
 	  socket.on('onUpdateNoteColor', function(data) {
 	  	if ($scope.note._id === data._id) {
-		  	$scope.note.color = data;
+		  	$scope.note.color = data.color;
 	  	}
 	  });
 
