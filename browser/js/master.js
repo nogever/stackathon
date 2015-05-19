@@ -85,7 +85,17 @@ app.factory('Note', function($http, $state) {
 			return $http.put('api/notes/images/' + id, imgUrl).then(function(response) {
 				return response.data;
 			});
-		}
+		},
+		addComment: function(newComment) {
+			return $http.post('api/comments/', newComment).then(function(response) {
+				return response.data;
+			});
+ 		},
+ 		getComments: function(id) {
+ 			return $http.get('api/notes/' + id + '/comments/').then(function(response) {
+ 				return response.data;
+ 			});
+ 		}
 	};
 });
 
@@ -236,6 +246,16 @@ app.directive('stickyNote', function(socket, Note) {
 		  	$scope.note.color = data;
 	  	}
 	  });
+
+	  $scope.comments = [];
+	  
+	  $scope.addComment = function() {
+	  	Note.addComment().then(function(comment) {
+	  		$scope.comments.push(comment);
+	  	}).catch(function(err) {
+	  		console.log(err);
+	  	});
+	  };
 
 	};
 
