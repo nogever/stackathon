@@ -44,7 +44,13 @@ app.factory('Board', function($http, $state) {
 						.then(function(response) {
 							return response.data;
 						});
-		}
+		},
+		updateGrid: function(id, grid) {
+			return $http.put('api/boards/' + id, {grid: grid})
+						.then(function(response) {
+							return response.data;
+						});
+		},
 
 	};
 });
@@ -308,6 +314,8 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 
 	// keep the latest background
 	angular.element('#board').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
+	// keep the latest grid
+	angular.element('.' + $scope.board.grid).addClass('grid-overlay-open');
 
 	// Incoming
 	socket.on('onNoteCreated', function(data) {
@@ -428,18 +436,67 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 			 });
 	};
 
+	$scope.isBgCollapsed = true;
+
 	socket.on('onChangeBoardBg', function(data) {
-		// Update if the same board
-		// if(data._id === $scope.board._id) {
-			// console.log('change board background socket incoming', data._id, $scope.board._id);
-			angular.element('#board').css('background-image', 'url(' + data.backgroundImg + ')');
-		// }
+		angular.element('#board').css('background-image', 'url(' + data.backgroundImg + ')');
+	});
+
+	$scope.grids = [
+		'Column Grids',
+		'Modular Grids'
+	];
+
+	$scope.switchGrid = function(grid) {
+		if (grid === 'Modular Grids')
+			grid = 'grid-overlay-modular'
+		if (grid === 'Column Grids')
+			grid = 'grid-overlay-column'
+		console.log('current grid ', + $scope.currentBoard.grid);
+		angular.element('.' + $scope.currentBoard.grid).removeClass('grid-overlay-open');
+		angular.element('.' + grid).addClass('grid-overlay-open');
+		var tempGrid = $scope.currentBoard.grid;
+		Board.updateGrid($scope.currentBoard._id, grid)
+			 .then(function(board) {
+			 	$scope.currentBoard.grid = board.grid;
+			 	var boardInfo = {
+			 		previousGrid: tempGrid,
+			 		currentGrid: board.grid
+			 	}
+			 	console.log('boardInfo ', boardInfo);
+			 	socket.emit('changeBoardGrid', boardInfo);
+			 }).catch(function(err) {
+			 	console.log(err);
+			 });
+	};
+
+	$scope.removeGrid = function() {
+		var removeGrid = 'grid-overlay-none';
+		angular.element('.' + $scope.currentBoard.grid).removeClass('grid-overlay-open');
+		Board.updateGrid($scope.currentBoard._id, removeGrid)
+			 .then(function(board) {
+			 	socket.emit('removeBoardGrid', $scope.currentBoard.grid);
+			 }).catch(function(err) {
+			 	console.log(err);
+			 });
+	};
+
+	$scope.isGridCollapsed = true;
+
+	socket.on('onChangeBoardGrid', function(data) {
+		console.log('boardInfo ', data);
+		angular.element('.' + data.previousGrid).removeClass('grid-overlay-open');
+		angular.element('.' + data.currentGrid).addClass('grid-overlay-open');
+	});
+
+	socket.on('onRemoveBoardGrid', function(data) {
+		angular.element('.' + data).removeClass('grid-overlay-open');
 	});
 });
 
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket) {
 	$scope.note = note;
-	// console.log('note modal instance ctrl ', note);
+
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};
