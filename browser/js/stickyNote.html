@@ -5,7 +5,7 @@
 	<textarea ng-model="note.body" ng-change="updateNote(note)" class="body">{{note.body}}</textarea>
 
 	<div class="note-utilities">
-		<i class="fa fa-plus" ng-click="openModal('lg')"></i>
+		<i class="fa fa-plus" ng-click="openModal()"></i>
 		<i class="fa fa-comment"></i>
 		<i class="fa fa-hand-o-up" ng-click="upvote(note._id)"></i>
 		{{note.upvote}}
@@ -24,14 +24,21 @@
 		{{ note.body }}
 		<h3>Image</h3>
 		<img class="note-modal-img" ng-repeat='image in note.images' ng-src='{{image}}'>
-
-		// <img class="note-modal-img" src = "{{note.image}}" />
 	</div>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-default pull-left" ng-click="addMedia()">Add Media</button>
-	    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	  <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 	</div>
+
+		<form name="newComment" ng-submit="newComment.$valid && addComment()" novalidate>
+		  <div class="form-group form-group-sm">
+		    <label for="commentBody" class="sr-only">Name</label>
+		    <textarea ng-model="comment" class="form-control" row="2" id="commentBody" placeholder="Enter comment here..." required>
+		  </div>
+		  <button id="add-new-comment" class="btn btn-default" ng-disabled="newComment.$invalid">Add Comment</button>
+	  </form>
+
 </script>
 
 <script type="text/ng-template" id="noteColor.html">
