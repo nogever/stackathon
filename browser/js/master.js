@@ -254,9 +254,14 @@ app.directive('stickyNote', function(socket, Note) {
 	  });
 
 	  $scope.comments = [];
+
+	  $scope.newComment = {
+	  	noteId: $scope.note._id,
+	  	content: ""
+	  };
 	  
 	  $scope.addComment = function() {
-	  	Note.addComment().then(function(comment) {
+	  	Note.addComment($scope.newComment).then(function(comment) {
 	  		$scope.comments.push(comment);
 	  	}).catch(function(err) {
 	  		console.log(err);

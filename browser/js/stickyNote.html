@@ -31,12 +31,12 @@
 	  <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 	</div>
 	<div>
-		<div ng-repeat="comment in comments">{{ comment }}</div>
+		<div ng-repeat="comment in comments">{{ comment.content }}</div>
 	</div>
 		<form name="newComment" ng-submit="newComment.$valid && addComment()" novalidate>
 		  <div class="form-group">
 		    <label for="commentBody" class="sr-only">Name</label>
-		    <textarea ng-model="comment" class="form-control" rows="2" id="commentBody" placeholder="Enter comment here..." required></textarea>
+		    <textarea ng-model="newComment.content" class="form-control" rows="2" id="commentBody" placeholder="Enter comment here..." required></textarea>
 		  </div>
 		  <button id="add-new-comment" class="btn btn-default" ng-disabled="newComment.$invalid">Add Comment</button>
 	  </form>
