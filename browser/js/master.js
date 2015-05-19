@@ -284,6 +284,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	$scope.$emit('boardInfo', $scope.board);
 	$scope.$parent.showBoardForm = true;
 	$scope.$parent.$broadcast('boardCreated');
+	$scope.animationsEnabled = true;
 
 	// keep the latest background
 	angular.element('#board').css('background-image', 'url(' + $scope.board.backgroundImg + ')');
