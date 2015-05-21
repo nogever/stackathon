@@ -98,7 +98,7 @@ app.factory('Note', function($http, $state) {
 			});
  		},
  		getComments: function(id) {
- 			return $http.get('api/notes/' + id + '/comments/').then(function(response) {
+ 			return $http.get('api/comments/' + id).then(function(response) {
  				return response.data;
  			});
  		}
@@ -252,23 +252,6 @@ app.directive('stickyNote', function(socket, Note) {
 		  	$scope.note.color = data.color;
 	  	}
 	  });
-
-	  // $scope.comments = [];
-
-	  // $scope.newComment = {
-	  // 	noteId: $scope.note._id,
-	  // 	content: ""
-	  // };
-	  
-	  // $scope.addComment = function() {
-	  // 	console.log('adding comment!!');
-	  // 	Note.addComment($scope.newComment).then(function(comment) {
-	  // 		console.log('new comment!!! ', comment);
-	  // 		$scope.comments.push(comment);
-	  // 	}).catch(function(err) {
-	  // 		console.log(err);
-	  // 	});
-	  // };
 
 	};
 
@@ -504,16 +487,44 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket, $sce) {
 	$scope.note = note;
 
-	// test
-	$scope.comments = [];
+	// $scope.comments = [];
+
+	// $scope.newComment = {
+	//   	noteId: $scope.note._id,
+	//   	content: ""
+	// };
+	  
+	// $scope.addComment = function() {
+	//   	console.log('adding comment!!');
+	//   	Note.addComment($scope.newComment).then(function(comment) {
+	//   		console.log('new comment!!! ', comment);
+	//   		$scope.comments.push(comment);
+	//   	}).catch(function(err) {
+	//   		console.log(err);
+	//   	});
+	// };
+
+	Note.getComments(note._id)
+		.then(function(comments) {
+			$scope.comments = comments;
+			console.log('all comments', $scope.comments);
+			if (comments === null)
+				$scope.comments = [];
+		})
+		.catch(function(err) {
+			console.log(err);
+		});
+
+	// $scope.comments = [];
 
 	$scope.newComment = {
-	  	noteId: $scope.note._id,
-	  	content: ""
+	  	note: note._id,
+	  	content: "test"
 	};
+
+	console.log('test ', $scope.newComment);
 	  
 	$scope.addComment = function() {
-	  	console.log('adding comment!!');
 	  	Note.addComment($scope.newComment).then(function(comment) {
 	  		console.log('new comment!!! ', comment);
 	  		$scope.comments.push(comment);
@@ -521,7 +532,6 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note,
 	  		console.log(err);
 	  	});
 	};
-	// end test
 
 
 	$scope.cancel = function() {

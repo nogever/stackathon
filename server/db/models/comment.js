@@ -7,7 +7,9 @@ var schema = new mongoose.Schema({
     },
     content: {
         type: String
-    }
+    },
+    images: [String],
+    files: [String]
 });
 
 mongoose.model('Comment', schema);

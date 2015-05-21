@@ -34,6 +34,14 @@
 		</div>
 	</div>
 	<div class="modal-footer">
+		new comment
+		<pre>
+			{{ newComment | json }}
+		</pre>
+		comments
+		<pre>
+			{{ comments | json }}
+		</pre>
 		<form name="newComment" class="note-comments-form" ng-submit="newComment.$valid && addComment()" novalidate>
 			<div class="form-group">
 			<label for="commentBody" class="sr-only">Name</label>
