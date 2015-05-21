@@ -501,7 +501,7 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 	});
 });
 
-app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket) {
+app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket, $sce) {
 	$scope.note = note;
 
 	// test
@@ -560,6 +560,9 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note,
 			}
 		);
 	};
+
+	var notebody = $scope.note.body.replace(/\n/g, '<br />');
+	$scope.notebody = $sce.trustAsHtml(notebody);
 
 });
 

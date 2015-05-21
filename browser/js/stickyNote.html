@@ -1,8 +1,8 @@
 <div class="sticky-note {{note.color}}">
 	<i class="pin"></i>
 	<button type="button" class="close pull-right" ng-click="deleteNote(note._id)">&times;</button>
-	<input ng-model="note.title" ng-change="updateNote(note)" type="text" class="title" >
-	<textarea ng-model="note.body" ng-change="updateNote(note)" class="body">{{note.body}}</textarea>
+	<!-- <input ng-model="note.title" ng-change="updateNote(note)" type="text" class="title" > -->
+	<textarea ng-model="note.body" ng-change="updateNote(note)" rows="6" class="body">{{note.body}}</textarea>
 
 	<div class="note-utilities">
 		<i class="fa fa-plus" ng-click="openModal()"></i>
@@ -16,20 +16,22 @@
 </div>
 
 <script type="text/ng-template" id="noteModal.html">
-	<div class="modal-header">
-	    <h3 class="modal-title">{{ note.title }}</h3>
-	</div>
-	<div class="modal-body">
-		<div class="note-body">
-			{{ note.body }}
-		</div>
+<div class="container-fluid">
+  <button class="note-modal-close pull-right" ng-click="cancel()"><i class="fa fa-close"></i></button>
+	<div class="modal-header col-sm-4">
+	     <!--h3 class="modal-title">{{ note.title }}</h3-->
+		<div class="note-body" ng-bind-html="notebody"></div>
 		<div class="note-image">
 			<img class="note-modal-img" ng-repeat='image in note.images' ng-src='{{image}}'>
 		</div>
+		<button class="btn btn-default pull-left" ng-click="addMedia()">Add Media</button>
+	</div>
+	<div class="col-sm-8">
+	<div class="modal-body">
+		<h4 class="modal-title">Comments</h4>
 		<div class="note-comments">
 			<div class="note-comment" ng-repeat="comment in comments">{{ comment.content }}</div>
 		</div>
-	</div>
 	</div>
 	<div class="modal-footer">
 		<form name="newComment" class="note-comments-form" ng-submit="newComment.$valid && addComment()" novalidate>
@@ -38,10 +40,9 @@
 			<textarea ng-model="newComment.content" class="form-control" rows="2" id="commentBody" placeholder="Enter comment here..." required></textarea>
 			</div>
 			<button id="add-new-comment" class="btn btn-default" ng-disabled="newComment.$invalid">Add Comment</button>
-	  	</form>
+  	</form>
 
-		<button class="btn btn-default pull-left" ng-click="addMedia()">Add Media</button>
-	  <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+	</div>
 	</div>
 
 </script>
