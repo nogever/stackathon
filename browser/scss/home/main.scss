@@ -64,10 +64,6 @@
 		background-color: $labelGrey;
 	}
 
-	textarea {
-		min-height: 100px;
-	}
-
 	.pin {
 		background-color: #aaa;
 		display: block;
@@ -117,24 +113,26 @@
 		-ms-transform-origin: 50% 100%;
 		-o-transform-origin: 50% 100%;
 	}
-}
 
-.sticky-note .title {
-	background: transparent;
-	border: none;
-	display: block;
-	width:180px;
-	max-width:180px;
-	font-size: 24px;
-}
+	.title {
+		background: transparent;
+		border: none;
+		display: block;
+		width:180px;
+		max-width:180px;
+		font-size: 24px;
+	}
 
-.sticky-note .body {
-	background: transparent;
-	border: none;
-	display: block;
-	width:180px;
-	max-width:180px;
-	font-size: 24px;
+	.body {
+		background: transparent;
+		border: none;
+		display: block;
+		width:180px;
+		max-width:180px;
+		font-size: 24px;
+		min-height: 100px;
+		line-height: 24px;
+	}
 }
 
 .note-utilities i.fa {
@@ -205,11 +203,11 @@ i.fa.fa-bars {
 }
 
 .note-comments-form {
-	margin: 20px 0;
+	margin: 0;
 }
 
 .note-comments {
-  margin: 20px 0;
+  margin: 0;
   .note-comment {
   	margin:10px 0;
   	padding: 5px 10px;
@@ -218,11 +216,19 @@ i.fa.fa-bars {
   }
 }
 
-.note-images {
-	margin: 20px 0;
+.note-image {
+	margin: 10px 0;
+	& img {
+		max-width: 100%;
+	}
 }
 
-
+.note-modal-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1800;
+}
 
 
 
