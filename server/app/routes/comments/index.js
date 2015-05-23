@@ -5,10 +5,10 @@ var Comment = mongoose.model('Comment');
 
 module.exports = router;
 
-router.get('/:id', function (req, res, next) {
-	Comment.findById(req.params.id, function(err, comment) {
+router.get('/:noteId', function (req, res, next) {
+	Comment.find({note: req.params.noteId}, function(err, comments) {
 		if(err) return next(err);
-		res.json(comment);
+		res.json(comments);
 	});
 });
 

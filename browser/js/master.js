@@ -223,11 +223,6 @@ app.directive('stickyNote', function(socket, Note) {
 					}
 				}
 			});
-			modalInstance.result.then(function() {
-				console.log('hi modal');
-			}, function() {
-				console.log('bye modal');
-			});
 		};
 
 		$scope.colors = ['red', 'yellow', 'green', 'blue', 'white', 'purple', 'emerald', 'grey'];
@@ -487,27 +482,9 @@ app.controller('MasterCtrl', function($scope, Board, $state, socket, $stateParam
 app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note, socket, $sce) {
 	$scope.note = note;
 
-	// $scope.comments = [];
-
-	// $scope.newComment = {
-	//   	noteId: $scope.note._id,
-	//   	content: ""
-	// };
-	  
-	// $scope.addComment = function() {
-	//   	console.log('adding comment!!');
-	//   	Note.addComment($scope.newComment).then(function(comment) {
-	//   		console.log('new comment!!! ', comment);
-	//   		$scope.comments.push(comment);
-	//   	}).catch(function(err) {
-	//   		console.log(err);
-	//   	});
-	// };
-
 	Note.getComments(note._id)
 		.then(function(comments) {
 			$scope.comments = comments;
-			console.log('all comments', $scope.comments);
 			if (comments === null)
 				$scope.comments = [];
 		})
@@ -515,18 +492,11 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note,
 			console.log(err);
 		});
 
-	// $scope.comments = [];
-
-	$scope.newComment = {
-	  	note: note._id,
-	  	content: "test"
-	};
-
-	console.log('test ', $scope.newComment);
+	$scope.test = {};
 	  
 	$scope.addComment = function() {
+		$scope.newComment.note = note._id;
 	  	Note.addComment($scope.newComment).then(function(comment) {
-	  		console.log('new comment!!! ', comment);
 	  		$scope.comments.push(comment);
 	  	}).catch(function(err) {
 	  		console.log(err);
@@ -548,14 +518,12 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, note, Note,
 			},
 
   			function(data){
-  				console.log('uploaded media ', data.url);
   				// add media to database
 				Note.uploadImage(
 					$scope.note._id, 
 					{ image: data.url }
 				)
 				.then(function(note){
-					console.log('note with new pic ', note);
 					$scope.note = note;
 					socket.emit('updateNote', note);
 				})
