@@ -174,6 +174,7 @@ app.directive('stickyNote', function(socket, Note) {
 		};
 
 		$scope.deleteNote = function(id) {
+			console.log('deleting note from delete button');
 			$scope.ondelete({
 				id: id
 			});
@@ -337,6 +338,7 @@ app.controller('BoardCtrl', function($scope, Board, Note, $modal, $state, socket
 	};
 
 	$scope.deleteNote = function(id) {
+		console.log('deleting note from parent controller');
 		$scope.handleDeletedNoted(id);
 		socket.emit('deleteNote', {id: id});
 	};
